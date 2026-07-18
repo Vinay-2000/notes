@@ -1,4 +1,4 @@
-# Java Interview Notes -- Part 1
+
 
 ### 1. Why is Java so popular?
 
