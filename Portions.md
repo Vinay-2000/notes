@@ -49,12 +49,12 @@
 
 ## JVM
 
-- [ ]  Heap
-- [ ]  Stack
-- [ ]  Metaspace
-- [ ]  GC
-- [ ]  Memory Leak
-- [ ]  OutOfMemoryError
+- [x] Heap ✅ 2026-07-18
+- [x] Stack ✅ 2026-07-18
+- [x] Metaspace ✅ 2026-07-18
+- [x] GC ✅ 2026-07-18
+- [x] Memory Leak ✅ 2026-07-18
+- [x] OutOfMemoryError ✅ 2026-07-18
 
 ---
 

@@ -57,12 +57,12 @@ JDK
 3. **Application ClassLoader**
 
     - Loads application classes from the classpath.
-        Delegation Model:
-        Application
-        ↓
-        Platform
-        ↓
-        Bootstrap
+      Delegation Model:
+      Application
+      ↓
+      Platform
+      ↓
+      Bootstrap
 
 ## Q4. How does the JVM execute code?
 
@@ -88,17 +88,17 @@ machine code - Improves long-running application performance
 
 Item - Memory Region
 Objects - Heap
-Arrays -  Heap
+Arrays - Heap
 Instance Variables - Heap
-Local Variables -  Stack
-Method Parameters -  Stack
-Static Variables -  Metaspace
-Static Methods Metadata -  Metaspace
-Class Metadata  - Metaspace
+Local Variables - Stack
+Method Parameters - Stack
+Static Variables - Metaspace
+Static Methods Metadata - Metaspace
+Class Metadata - Metaspace
 Constant Poo - l Metaspace
-JIT Compiled Code -  Code Cache
-Program Counter -  PC Register
-JNI Frames -  Native Stack
+JIT Compiled Code - Code Cache
+Program Counter - PC Register
+JNI Frames - Native Stack
 
 ## Q7. What is Heap?
 
@@ -269,3 +269,273 @@ No. Since Java 7, it is in the Heap.
 ### Is the Garbage Collector a daemon thread?
 
 Yes.
+
+# Q18. What is a Memory Leak in Java?
+
+### Answer
+
+A **memory leak** occurs when an object is **no longer needed by the application but is still reachable**, so the Garbage Collector **cannot reclaim its memory**.
+
+> **Interview definition:**  
+> A memory leak in Java is a situation where unused objects remain strongly referenced, preventing the Garbage Collector from freeing them, eventually causing increased heap usage and possibly an `OutOfMemoryError`.
+
+---
+
+## Example
+
+```
+List<String> cache = new ArrayList<>();
+
+while (true) {
+    cache.add(UUID.randomUUID().toString());
+}
+```
+
+### What happens?
+
+- New String objects are continuously created.
+- They are added to `cache`.
+- `cache` holds strong references.
+- GC cannot remove them.
+- Heap usage keeps increasing.
+- Eventually:
+
+```
+java.lang.OutOfMemoryError: Java heap space
+```
+
+---
+
+## Real-world causes of Memory Leaks
+
+### 1. Static Collections
+
+```
+public class Cache {
+    static List<Object> list = new ArrayList<>();
+}
+```
+
+Objects remain alive for the lifetime of the application.
+
+---
+
+### 2. Unclosed Resources
+
+```
+FileInputStream fis = new FileInputStream(file);
+```
+
+Not closing resources may leak native resources (file descriptors, sockets). While not a heap leak, it's still considered a resource leak.
+
+Use:
+
+```
+try (FileInputStream fis = new FileInputStream(file)) {
+
+}
+```
+
+---
+
+### 3. Event Listeners
+
+Registering listeners but never removing them.
+
+---
+
+### 4. Caches
+
+Growing caches without eviction policies.
+
+Use:
+
+- LRU Cache
+- WeakHashMap
+- Caffeine
+
+---
+
+### 5. ThreadLocal misuse
+
+Forgetting:
+
+```
+threadLocal.remove();
+```
+
+especially in thread pools.
+
+---
+
+## How do you detect a Memory Leak?
+
+Tools:
+
+- Eclipse MAT (Memory Analyzer)
+- VisualVM
+- JProfiler
+- YourKit
+- Heap Dumps (`jmap`)
+
+---
+
+# Q19. Difference between OutOfMemoryError and StackOverflowError
+
+| Feature       | OutOfMemoryError                                    | StackOverflowError             |
+| ------------- | --------------------------------------------------- | ------------------------------ |
+| Memory Region | Heap (most commonly)                                | Stack                          |
+| Cause         | JVM cannot allocate more memory                     | Stack frames exceed stack size |
+| Related To    | Objects                                             | Method calls                   |
+| GC helps?     | Sometimes, but not if memory is genuinely exhausted | No                             |
+| Common Cause  | Memory leak, huge objects                           | Infinite/deep recursion        |
+
+---
+
+# OutOfMemoryError
+
+### Definition
+
+Occurs when the JVM **cannot allocate additional memory**.
+
+Most common message:
+
+```
+java.lang.OutOfMemoryError: Java heap space
+```
+
+---
+
+### Example
+
+```
+List<byte[]> list = new ArrayList<>();
+
+while (true) {
+    list.add(new byte[1024 * 1024]);
+}
+```
+
+Every iteration allocates 1 MB.
+
+Eventually:
+
+```
+OutOfMemoryError
+```
+
+---
+
+### Types of OutOfMemoryError
+
+```
+Java heap space
+GC overhead limit exceeded
+Metaspace
+Direct buffer memory
+Unable to create native thread
+```
+
+Interviewers usually expect you to know at least:
+
+- Java heap space
+- Metaspace
+
+---
+
+# StackOverflowError
+
+### Definition
+
+Occurs when the **thread stack becomes full**.
+
+Usually due to excessive recursion.
+
+---
+
+Example:
+
+```
+public void fun() {
+    fun();
+}
+```
+
+Calling:
+
+```
+fun();
+```
+
+creates:
+
+```
+fun()
+ fun()
+  fun()
+   fun()
+    fun()
+     ...
+```
+
+Every call creates a new stack frame.
+
+Eventually:
+
+```
+java.lang.StackOverflowError
+```
+
+---
+
+## Why doesn't GC help?
+
+Because stack memory is **not managed by the Garbage Collector**.
+
+Each recursive call needs another stack frame, and once the stack limit is reached, the JVM throws `StackOverflowError`.
+
+---
+
+# Interview Question
+
+### Can OutOfMemoryError happen even if Garbage Collector runs?
+
+**Yes.**
+
+GC only removes **unreachable** objects.
+
+If all objects are still referenced (memory leak), GC cannot free enough memory, leading to `OutOfMemoryError`.
+
+---
+
+# Interview Question
+
+### Can StackOverflowError happen without recursion?
+
+**Yes**, although recursion is the most common cause.
+
+Examples:
+
+- Very deep method call chains
+- Large stack allocations (rare in Java)
+- Small thread stack size (`-Xss`)
+
+---
+
+# Memory Leak vs OutOfMemoryError
+
+They are **not the same thing**.
+
+```
+Memory Leak
+      ↓
+Heap keeps growing
+      ↓
+Garbage Collector can't free memory
+      ↓
+Eventually
+      ↓
+OutOfMemoryError
+```
+
+A memory leak is **one possible cause** of an `OutOfMemoryError`.
