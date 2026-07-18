@@ -1,3 +1,17 @@
+### ⚡ TL;DR (Executive Summary)
+* **Core Distinction:** The difference lies entirely in two things: **Does it consume the previous result?** and **Does it return a new value?**
+* **`thenApply()` (Transform):** Takes the previous result, transforms it using a `Function<T, R>`, and returns a new `CompletableFuture<R>`. Use for **data pipelining/mapping** (e.g., converting an Entity to a DTO).
+* **`thenAccept()` (Consume):** Takes the previous result, consumes it using a `Consumer<T>`, and returns `CompletableFuture<Void>`. Use for **terminal actions** like logging, saving, or printing.
+* **`thenRun()` (Trigger):** Completely **ignores** the previous result, executes a `Runnable`, and returns `CompletableFuture<Void>`. Use for running an independent side-effect after a task completes.
+
+| Method | Input (Consumes Result?) | Output (Returns Value?) | Functional Interface | Cheat Sheet / Memory Trick |
+| :--- | :--- | :--- | :--- | :--- |
+| **`thenApply()`** | ✅ Yes (`T`) | ✅ Yes (`R`) | `Function<T, R>` | **Apply** a transformation |
+| **`thenAccept()`** | ✅ Yes (`T`) | ❌ No (`void`) | `Consumer<T>` | **Accept** and consume |
+| **`thenRun()`** | ❌ No (`void`) | ❌ No (`void`) | `Runnable` | **Run** blindly next |
+
+---
+
 We already know:
 
 ```java
@@ -13,9 +27,7 @@ Java gives us three methods:
 
 ```
 thenApply()
-
 thenAccept()
-
 thenRun()
 ```
 
@@ -29,13 +41,9 @@ Think:
 
 ```
 Input
-
 ↓
-
 Transform
-
 ↓
-
 Output
 ```
 
@@ -46,7 +54,6 @@ CompletableFuture<String> future =
         CompletableFuture
                 .supplyAsync(() -> "vinay")
                 .thenApply(String::toUpperCase);
-
 System.out.println(future.join());
 ```
 
@@ -60,13 +67,9 @@ Notice
 
 ```
 vinay
-
 ↓
-
 toUpperCase()
-
 ↓
-
 VINAY
 ```
 
@@ -80,20 +83,14 @@ Conceptually
 
 ```java
 T
-
 ↓
-
 Function<T,R>
-
 ↓
-
 R
 ```
 
 Input
-
 ↓
-
 Returns another value.
 
 ---
@@ -105,7 +102,6 @@ CompletableFuture<Integer> future =
         CompletableFuture
                 .supplyAsync(() -> 10)
                 .thenApply(x -> x * 2);
-
 System.out.println(future.join());
 ```
 
@@ -117,9 +113,7 @@ Output
 
 ```
 10
-
 ↓
-
 20
 ```
 
@@ -131,13 +125,9 @@ Think:
 
 ```
 Input
-
 ↓
-
 Consume
-
 ↓
-
 No Return
 ```
 
@@ -158,7 +148,6 @@ Vinay
 Notice
 
 The value is used.
-
 But nothing is returned.
 
 ---
@@ -167,13 +156,9 @@ But nothing is returned.
 
 ```
 T
-
 ↓
-
 Consumer<T>
-
 ↓
-
 void
 ```
 
@@ -202,9 +187,7 @@ Think
 
 ```
 Ignore Previous Result
-
 ↓
-
 Just Run Something
 ```
 
@@ -226,11 +209,7 @@ Finished
 Notice
 
 The previous result
-
-```
-Vinay
-```
-
+`Vinay`
 is ignored.
 
 ---
@@ -239,13 +218,9 @@ is ignored.
 
 ```
 No Input
-
 ↓
-
 Runnable
-
 ↓
-
 void
 ```
 
@@ -257,13 +232,9 @@ thenApply
 
 ```
 Result
-
 ↓
-
 Modify
-
 ↓
-
 New Result
 ```
 
@@ -273,13 +244,9 @@ thenAccept
 
 ```
 Result
-
 ↓
-
 Use It
-
 ↓
-
 Done
 ```
 
@@ -289,9 +256,7 @@ thenRun
 
 ```
 Ignore Result
-
 ↓
-
 Run Task
 ```
 
@@ -303,13 +268,9 @@ Run Task
 CompletableFuture<String> future =
         CompletableFuture
                 .supplyAsync(() -> "Java")
-
                 .thenApply(String::toUpperCase)
-
                 .thenApply(s -> s + " 21")
-
                 .thenApply(s -> "[" + s + "]");
-
 System.out.println(future.join());
 ```
 
@@ -317,17 +278,11 @@ Execution
 
 ```
 Java
-
 ↓
-
 JAVA
-
 ↓
-
 JAVA 21
-
 ↓
-
 [JAVA 21]
 ```
 
@@ -341,9 +296,7 @@ Suppose
 
 ```
 Database
-
 ↓
-
 Employee
 ```
 
@@ -353,7 +306,6 @@ Need DTO
 CompletableFuture<EmployeeDTO> future =
         CompletableFuture
                 .supplyAsync(employeeService::getEmployee)
-
                 .thenApply(employeeMapper::toDTO);
 ```
 
@@ -366,11 +318,9 @@ Very common in enterprise applications.
 ## Difference between thenApply() and thenAccept()
 
 thenApply()
-
 Returns another value.
 
 thenAccept()
-
 Consumes the value and returns nothing.
 
 ---
@@ -378,11 +328,9 @@ Consumes the value and returns nothing.
 ## Difference between thenAccept() and thenRun()
 
 thenAccept()
-
 Receives the previous result.
 
 thenRun()
-
 Ignores the previous result.
 
 ---
@@ -391,36 +339,20 @@ Ignores the previous result.
 
 ```
 thenApply()
-
 ↓
-
 Apply Function
-
 ↓
-
 Return New Value
-
 -------------------
-
 thenAccept()
-
 ↓
-
 Accept Value
-
 ↓
-
 Return Nothing
-
 -------------------
-
 thenRun()
-
 ↓
-
 Ignore Value
-
 ↓
-
 Just Run
 ```

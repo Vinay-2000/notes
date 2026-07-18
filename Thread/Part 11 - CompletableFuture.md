@@ -1,14 +1,21 @@
 
 
+### ⚡ TL;DR (Executive Summary)
+
+* `CompletableFuture` improves on `Future` with non-blocking pipelines, result transformation, combining independent tasks, and structured error handling.
+* Use `runAsync()` for asynchronous work with no result and `supplyAsync()` when the task produces a value.
+* Stages can run in the completing thread or asynchronously in the common pool or a supplied executor.
+* `join()` waits for completion like `get()`, but reports failures as unchecked `CompletionException`.
+
+---
+
 # Why Was CompletableFuture Introduced?
 
 We already have:
 
 ```
 ExecutorService
-
 ↓
-
 Future
 ```
 
@@ -27,11 +34,8 @@ Suppose:
 ```java
 Future<String> future =
 executor.submit(() -> {
-
     Thread.sleep(5000);
-
     return "Hello";
-
 });
 ```
 
@@ -45,17 +49,11 @@ If the task isn't finished:
 
 ```
 Main Thread
-
 ↓
-
 WAITING
-
 ↓
-
 5 Seconds
-
 ↓
-
 Gets Result
 ```
 
@@ -69,13 +67,9 @@ Suppose we want:
 
 ```
 Download Employee
-
 ↓
-
 Extract Department
-
 ↓
-
 Send Email
 ```
 
@@ -83,9 +77,7 @@ With Future:
 
 ```java
 Employee e = future.get();
-
 Department d = ...
-
 sendMail();
 ```
 
@@ -103,9 +95,7 @@ Suppose we have:
 
 ```
 Future<Employee>
-
 Future<Salary>
-
 Future<Project>
 ```
 
@@ -113,9 +103,7 @@ We want:
 
 ```
 Wait For All
-
 ↓
-
 Create Response
 ```
 
@@ -149,21 +137,13 @@ Think of it as:
 
 ```
 Future
-
 +
-
 Callbacks
-
 +
-
 Pipelines
-
 +
-
 Composition
-
 +
-
 Exception Handling
 ```
 
@@ -175,13 +155,9 @@ Future asks:
 
 ```
 Has Task Finished?
-
 ↓
-
 Yes?
-
 ↓
-
 Give Result
 ```
 
@@ -189,9 +165,7 @@ CompletableFuture asks:
 
 ```
 When Task Finishes
-
 ↓
-
 Automatically Do Next Step
 ```
 
@@ -214,9 +188,7 @@ No return value.
 ```java
 CompletableFuture<Void> future =
 CompletableFuture.runAsync(() -> {
-
     System.out.println("Hello");
-
 });
 ```
 
@@ -235,9 +207,7 @@ Returns a value.
 ```java
 CompletableFuture<String> future =
 CompletableFuture.supplyAsync(() -> {
-
     return "Vinay";
-
 });
 ```
 
@@ -279,11 +249,8 @@ Later we'll see how to use our own ExecutorService.
 ```java
 CompletableFuture<String> future =
 CompletableFuture.supplyAsync(() -> {
-
     System.out.println(Thread.currentThread().getName());
-
     return "Java";
-
 });
 ```
 
@@ -329,25 +296,15 @@ inside CompletableFuture chains.
 
 ```
 Main Thread
-
 ↓
-
 Start Async Task
-
 ↓
-
 Continue Working
-
 ---------------------
-
 Worker Thread
-
 ↓
-
 Computes Result
-
 ↓
-
 Completes Future
 ```
 
@@ -355,9 +312,7 @@ Only when we call:
 
 ```
 join()
-
 or
-
 get()
 ```
 
@@ -377,9 +332,7 @@ Needs:
 
 ```
 Employee
-
 Salary
-
 Projects
 ```
 
@@ -389,13 +342,9 @@ Instead of:
 
 ```
 Employee
-
 ↓
-
 Salary
-
 ↓
-
 Projects
 ```
 
@@ -403,9 +352,7 @@ Run all together.
 
 ```
 Employee
-
 Salary
-
 Projects
 ```
 
@@ -449,28 +396,16 @@ Returns a result.
 
 ```
 Future
-
 ↓
-
 Wait
-
 ↓
-
 Get Result
-
 -----------------------
-
 CompletableFuture
-
 ↓
-
 Start Async
-
 ↓
-
 Continue
-
 ↓
-
 Automatically Process Result
 ```

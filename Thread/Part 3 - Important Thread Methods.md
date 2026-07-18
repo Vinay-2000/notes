@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* `start()` creates a new thread; calling `run()` directly is only a normal method call on the current thread.
+* `sleep()` pauses the current thread without releasing its lock, while `join()` makes one thread wait for another to finish.
+* `interrupt()` requests cancellation/cooperation; it does not forcibly stop arbitrary running code.
+* `yield()`, `isAlive()`, and `setDaemon()` respectively hint scheduling, check liveness, and configure background threads.
+
+---
+
 Before learning synchronization, we need to understand the methods available on a Thread.
 We'll cover:
 

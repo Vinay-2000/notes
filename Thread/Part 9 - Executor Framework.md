@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* The Executor framework separates submitting work from creating and managing threads, typically through reusable thread pools.
+* `execute()` runs a `Runnable` without a result; `submit()` returns a `Future` for result, completion, cancellation, and failure handling.
+* Select pool types by workload: fixed for bounded concurrency, cached for short bursty tasks, single-thread for ordered work, and scheduled for delayed or periodic work.
+* Shut executors down deliberately: `shutdown()` lets submitted tasks finish, while `shutdownNow()` attempts interruption.
+
+---
+
 # Why Was Executor Framework Introduced?
 
 Suppose you want to execute 100 tasks.
@@ -18,25 +27,15 @@ Every iteration creates:
 
 ```
 New Thread
-
 ↓
-
 Allocate Stack
-
 ↓
-
 Create OS Thread
-
 ↓
-
 Register with Scheduler
-
 ↓
-
 Execute
-
 ↓
-
 Destroy Thread
 ```
 
@@ -44,13 +43,9 @@ Now imagine:
 
 ```
 1000 Requests
-
 ↓
-
 1000 Threads
-
 ↓
-
 1000 Thread Creations
 ```
 
@@ -64,13 +59,9 @@ Instead:
 
 ```
 Create Workers Once
-
 ↓
-
 Reuse Them
-
 ↓
-
 Give Them New Tasks
 ```
 
@@ -86,17 +77,11 @@ Without Thread Pool
 
 ```
 Customer Arrives
-
 ↓
-
 Hire New Chef
-
 ↓
-
 Cook
-
 ↓
-
 Fire Chef
 ```
 
@@ -106,17 +91,11 @@ Instead:
 
 ```
 Restaurant
-
 ↓
-
 5 Chefs
-
 ↓
-
 Customers Keep Coming
-
 ↓
-
 Chefs Keep Cooking
 ```
 
@@ -132,13 +111,9 @@ Java introduced:
 
 ```
 Executor
-
 ↓
-
 ExecutorService
-
 ↓
-
 Thread Pool
 ```
 
@@ -170,7 +145,6 @@ Think:
 
 ```
 Here is work.
-
 Please execute it.
 ```
 
@@ -207,9 +181,7 @@ Meaning:
 
 ```
 3 Worker Threads
-
 ↓
-
 Reuse Forever
 ```
 
@@ -223,25 +195,15 @@ Execution:
 
 ```
 Task1
-
 Task2
-
 Task3
-
 ↓
-
 Workers Busy
-
 ↓
-
 Task4 waits
-
 ↓
-
 Worker Free
-
 ↓
-
 Task4 Executes
 ```
 
@@ -257,13 +219,9 @@ Behavior:
 
 ```
 Need Thread?
-
 ↓
-
 Reuse Existing
-
 ↓
-
 Else Create New
 ```
 
@@ -295,13 +253,9 @@ Only one worker.
 
 ```
 Task1
-
 ↓
-
 Task2
-
 ↓
-
 Task3
 ```
 
@@ -376,7 +330,6 @@ Accepts:
 
 ```
 Runnable
-
 Callable
 ```
 
@@ -407,13 +360,9 @@ Meaning:
 
 ```
 No New Tasks
-
 ↓
-
 Finish Existing Tasks
-
 ↓
-
 Terminate Pool
 ```
 
@@ -429,13 +378,9 @@ Meaning:
 
 ```
 Stop Accepting
-
 ↓
-
 Interrupt Running Tasks
-
 ↓
-
 Return Waiting Tasks
 ```
 
@@ -455,13 +400,9 @@ Pool Size = 3
 
 ```
 Task1
-
 Task2
-
 Task3
-
 Task4
-
 Task5
 ```
 
@@ -469,17 +410,11 @@ Pool:
 
 ```
 Worker1 → Task1
-
 Worker2 → Task2
-
 Worker3 → Task3
-
 Queue
-
 ↓
-
 Task4
-
 Task5
 ```
 
@@ -487,9 +422,7 @@ When Worker1 finishes:
 
 ```
 Worker1
-
 ↓
-
 Task4
 ```
 
@@ -505,13 +438,9 @@ Without Executor
 
 ```
 Task
-
 ↓
-
 New Thread
-
 ↓
-
 Destroy
 ```
 
@@ -519,17 +448,11 @@ With Executor
 
 ```
 Task
-
 ↓
-
 Queue
-
 ↓
-
 Existing Worker
-
 ↓
-
 Next Task
 ```
 
@@ -565,13 +488,9 @@ After processing:
 
 ```
 Worker
-
 ↓
-
 Returned To Pool
-
 ↓
-
 Ready For Next Request
 ```
 
@@ -646,28 +565,16 @@ Scheduled Thread Pool
 
 ```
 Need Thread?
-
 ↓
-
 Don't Create
-
 ↓
-
 Reuse
-
 ↓
-
 Thread Pool
-
 ↓
-
 ExecutorService
-
 ↓
-
 submit()
-
 ↓
-
 Future
 ```

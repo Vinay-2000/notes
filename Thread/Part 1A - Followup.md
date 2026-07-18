@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* Every thread owns a private stack containing its active method frames, local variables, parameters, temporary operands, and return addresses.
+* Method code and instance fields live in shared memory, while local variables are typically thread-safe because each thread has its own stack frame.
+* Threads can execute the same method concurrently; races occur only when they access shared mutable state without coordination.
+* Thread context switching is cheaper than process switching because threads share their process resources.
+
+---
+
 # Interview Point 1: Why does each thread have its own stack?
 
 Each thread executes independently. If threads shared the same stack, they would overwrite each other's method calls, local variables, and return addresses, making correct execution impossible.
@@ -53,9 +62,7 @@ The method code is shared, but each thread gets its own stack frame.
 
 ```
 Method Code (Shared)
-
         calculate()
-
            ▲
            │
  ┌─────────┴─────────┐

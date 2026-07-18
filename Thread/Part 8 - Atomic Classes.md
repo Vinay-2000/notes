@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* Atomic classes such as `AtomicInteger` provide lock-free, thread-safe operations on individual values.
+* They use compare-and-swap (CAS): update only if the value still matches the expected value, retrying when another thread wins the race.
+* Use atomic classes for counters, flags, and single-variable state transitions; use locks or synchronization for multi-variable invariants.
+* Atomic updates solve `count++` races, but CAS-based designs must consider issues such as ABA when values can change and change back.
+
+---
+
 ## Why Were Atomic Classes Introduced?
 
 Suppose we have:
@@ -16,13 +25,9 @@ We already know:
 
 ```
 Read
-
 ↓
-
 Increment
-
 ↓
-
 Write
 ```
 
@@ -32,13 +37,9 @@ Possible execution:
 
 ```
 count = 5
-
 Thread A reads 5
-
 Thread B reads 5
-
 Thread A writes 6
-
 Thread B writes 6
 ```
 
@@ -62,9 +63,7 @@ Race Condition.
 
 ```java
 synchronized(this){
-
     count++;
-
 }
 ```
 
@@ -104,11 +103,8 @@ Output:
 
 ```
 1
-
 2
-
 3
-
 ...
 ```
 
@@ -186,7 +182,6 @@ Instead it uses:
 
 ```
 CAS
-
 Compare And Swap
 ```
 
@@ -210,17 +205,11 @@ CAS works like this:
 
 ```
 Expected = 5
-
 ↓
-
 Current = 5 ?
-
 ↓
-
 Yes
-
 ↓
-
 Replace with 6
 ```
 
@@ -248,17 +237,11 @@ CAS says:
 
 ```
 Expected = 5
-
 ↓
-
 Current = 6
-
 ↓
-
 Not Equal
-
 ↓
-
 Fail
 ```
 
@@ -272,17 +255,11 @@ Thread A
 
 ```
 Read 5
-
 ↓
-
 CAS
-
 ↓
-
 Success
-
 ↓
-
 Write 6
 ```
 
@@ -290,33 +267,19 @@ Thread B
 
 ```
 Read 5
-
 ↓
-
 CAS
-
 ↓
-
 Current is 6
-
 ↓
-
 Failed
-
 ↓
-
 Retry
-
 ↓
-
 Read 6
-
 ↓
-
 CAS
-
 ↓
-
 Write 7
 ```
 
@@ -332,7 +295,6 @@ You can use CAS directly.
 
 ```java
 AtomicInteger count = new AtomicInteger(10);
-
 boolean success =
 count.compareAndSet(10,20);
 ```
@@ -341,9 +303,7 @@ Meaning:
 
 ```
 If Current == 10
-
 ↓
-
 Change To 20
 ```
 
@@ -361,13 +321,9 @@ Normally:
 
 ```
 Acquire Lock
-
 ↓
-
 Increment
-
 ↓
-
 Release Lock
 ```
 
@@ -375,9 +331,7 @@ AtomicInteger:
 
 ```
 CAS
-
 ↓
-
 Done
 ```
 
@@ -397,9 +351,7 @@ Suppose:
 
 ```java
 balance += amount;
-
 history.add(amount);
-
 sendNotification();
 ```
 
@@ -409,9 +361,7 @@ AtomicInteger only makes:
 
 ```
 One Variable
-
 ↓
-
 Atomic
 ```
 
@@ -421,9 +371,7 @@ For multiple related operations:
 
 ```
 synchronized
-
 or
-
 Lock
 ```
 
@@ -449,13 +397,9 @@ Thread 2 changes:
 
 ```
 A
-
 ↓
-
 B
-
 ↓
-
 A
 ```
 
@@ -463,13 +407,9 @@ Thread 1 performs CAS.
 
 ```
 Expected = A
-
 ↓
-
 Current = A
-
 ↓
-
 Success
 ```
 
@@ -499,7 +439,6 @@ Store:
 
 ```
 A
-
 Version = 1
 ```
 
@@ -507,7 +446,6 @@ Update:
 
 ```
 B
-
 Version = 2
 ```
 
@@ -515,7 +453,6 @@ Again:
 
 ```
 A
-
 Version = 3
 ```
 
@@ -523,9 +460,7 @@ Now CAS checks:
 
 ```
 Value
-
 AND
-
 Version
 ```
 
@@ -533,7 +468,6 @@ Thread 1 expects:
 
 ```
 A
-
 Version 1
 ```
 
@@ -541,7 +475,6 @@ Current:
 
 ```
 A
-
 Version 3
 ```
 
@@ -600,9 +533,7 @@ Internally, `AtomicInteger` has something like this (simplified):
 
 ```
 public class AtomicInteger {
-
     private volatile int value;
-
 }
 ```
 
@@ -631,44 +562,24 @@ That guarantees you see the latest value.
 
 ```
 volatile
-
 ↓
-
 Visibility
-
 -------------------
-
 AtomicInteger
-
 ↓
-
 Visibility
-
 +
-
 Atomicity
-
 ↓
-
 CAS
-
 ↓
-
 No Lock
-
 -------------------
-
 synchronized
-
 ↓
-
 Visibility
-
 +
-
 Atomicity
-
 +
-
 Multiple Operations
 ```

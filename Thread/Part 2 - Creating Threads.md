@@ -1,3 +1,17 @@
+### ⚡ TL;DR (Executive Summary)
+
+* **Separate worker from work:** A `Thread` is the worker; `Runnable` and `Callable` describe the work. Prefer this separation over extending `Thread`.
+* **Use `Runnable` by default:** It has no return value and cannot throw checked exceptions, but it works naturally with `Thread`, thread pools, and `ExecutorService`.
+* **Use `Callable<T>` for results:** Its `call()` method returns `T` and may throw checked exceptions; it is typically executed through `ExecutorService`.
+* **Know the lifecycle rule:** `start()` creates a new thread which invokes `run()`; directly calling `run()` stays on the current thread. A `Thread` instance can only be started once.
+
+| Option | Use It When |
+| :--- | :--- |
+| Extend `Thread` | Rarely; only when a thread subtype is genuinely needed |
+| `Runnable` | You need work with no result |
+| `Callable<T>` | You need a result or checked-exception support |
+
+---
 
 ## Why Do We Need Multiple Ways to Create Threads?
 
@@ -14,9 +28,7 @@ Think of it like this:
 
 ```
 Thread (Worker)
-
         +
-
 Task (Work)
 ```
 
@@ -30,14 +42,11 @@ This is exactly why Java provides `Runnable`, `Callable`, and `Thread`.
 
 ```java
 class MyThread extends Thread {
-
     @Override
     public void run() {
         System.out.println("Running...");
     }
-
 }
-
 MyThread thread = new MyThread();
 thread.start();
 ```
@@ -46,17 +55,11 @@ thread.start();
 
 ```
 MyThread Object
-
 ↓
-
 start()
-
 ↓
-
 JVM creates a new OS Thread
-
 ↓
-
 JVM invokes run() on that new thread
 ```
 
@@ -100,16 +103,12 @@ Your inheritance is already consumed.
 
 ```java
 class MyTask implements Runnable {
-
     @Override
     public void run() {
         System.out.println("Running...");
     }
-
 }
-
 Thread thread = new Thread(new MyTask());
-
 thread.start();
 ```
 
@@ -121,17 +120,11 @@ The task is created separately.
 
 ```
 Runnable
-
 ↓
-
 Task
-
 ----------------
-
 Thread
-
 ↓
-
 Executes Task
 ```
 
@@ -145,13 +138,9 @@ Imagine 5 different tasks.
 
 ```
 Download File
-
 Upload File
-
 Send Email
-
 Generate Report
-
 Compress Images
 ```
 
@@ -167,13 +156,9 @@ Instead:
 
 ```
 Task
-
 ↓
-
 Runnable
-
 ↓
-
 Thread executes Runnable
 ```
 
@@ -189,13 +174,9 @@ Because it separates:
 
 ```
 What to execute
-
 (Runnable)
-
 from
-
 Who executes it
-
 (Thread)
 ```
 
@@ -217,15 +198,10 @@ Runnable has one limitation.
 
 ```
 Runnable
-
 ↓
-
 run()
-
 ↓
-
 No return value
-
 No checked exception
 ```
 
@@ -233,9 +209,7 @@ Suppose we want:
 
 ```
 Calculate Salary
-
 ↓
-
 Return Result
 ```
 
@@ -245,12 +219,10 @@ Java introduced Callable.
 
 ```java
 class SalaryTask implements Callable<Integer> {
-
     @Override
     public Integer call() {
         return 50000;
     }
-
 }
 ```
 
@@ -258,13 +230,9 @@ Notice:
 
 ```
 Runnable
-
 ↓
-
 run()
-
 ↓
-
 void
 ```
 
@@ -272,13 +240,9 @@ vs
 
 ```
 Callable
-
 ↓
-
 call()
-
 ↓
-
 Returns Value
 ```
 
@@ -324,13 +288,9 @@ It's just a normal method call.
 
 ```
 Main Thread
-
 ↓
-
 run()
-
 ↓
-
 Still Main Thread
 ```
 
@@ -346,17 +306,11 @@ t.start();
 
 ```
 Main Thread
-
 ↓
-
 JVM
-
 ↓
-
 Creates New Thread
-
 ↓
-
 New Thread executes run()
 ```
 
@@ -368,9 +322,7 @@ Now two threads exist.
 
 ```java
 Thread t = new Thread(...);
-
 t.start();
-
 t.start();
 ```
 
@@ -388,13 +340,9 @@ Once that execution finishes:
 
 ```
 NEW
-
 ↓
-
 RUNNABLE
-
 ↓
-
 TERMINATED
 ```
 
@@ -410,13 +358,9 @@ Think of a Thread like a bullet.
 
 ```
 Bullet
-
 ↓
-
 Fire
-
 ↓
-
 Finished
 ```
 
@@ -462,24 +406,14 @@ A Thread object represents a single execution. Once terminated, it cannot be sta
 
 ```
 Thread
-
 ↓
-
 Worker
-
 ----------------
-
 Runnable
-
 ↓
-
 Work
-
 ----------------
-
 Callable
-
 ↓
-
 Work + Result
 ```

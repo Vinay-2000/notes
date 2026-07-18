@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* Use `wait()` and `notify()`/`notifyAll()` for threads that must coordinate on a shared monitor, such as producer-consumer queues.
+* `wait()` releases the monitor and pauses the thread; `sleep()` pauses but keeps any lock it holds.
+* Call `wait()`, `notify()`, and `notifyAll()` only while synchronized on the same object.
+* Guard `wait()` with a `while` condition so a thread rechecks state after waking; prefer `notifyAll()` when several waiting threads may be eligible.
+
+---
+
 ## Why Do We Need wait() and notify()?
 
 Suppose two threads are working together.

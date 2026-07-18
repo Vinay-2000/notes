@@ -1,3 +1,19 @@
+### ⚡ TL;DR (Executive Summary)
+
+* **Why `Lock` exists:** `synchronized` is ideal for simple mutual exclusion, while `ReentrantLock` adds practical control: non-blocking attempts, timeouts, interruptible waits, and optional fairness.
+* **Safe pattern:** Always pair `lock.lock()` with `unlock()` in a `finally` block so exceptions cannot leave other threads permanently blocked.
+* **Key capabilities:** Use `tryLock()` to avoid indefinite waiting, timed `tryLock()` to give up after a limit, and `lockInterruptibly()` to support cancellation.
+* **Read-heavy data:** `ReadWriteLock` lets multiple readers proceed together but keeps writers exclusive; `StampedLock` adds optimistic reads for high-performance read-mostly workloads.
+
+| Need | Best Fit |
+| :--- | :--- |
+| Simple shared-data protection | `synchronized` |
+| Timeout, interruption, fairness, or `tryLock()` | `ReentrantLock` |
+| Many readers, occasional writers | `ReadWriteLock` |
+| Advanced read-heavy optimization | `StampedLock` |
+
+---
+
 ## Why Was Lock Introduced?
 
 We already have:
@@ -517,9 +533,7 @@ Suppose three threads want the same lock.
 
 ```
 Thread A
-
 Thread B
-
 Thread C
 ```
 
@@ -535,25 +549,15 @@ Timeline
 
 ```
 A arrives
-
 ↓
-
 Gets Lock
-
 -------------------
-
 B arrives
-
 ↓
-
 Waiting
-
 -------------------
-
 C arrives
-
 ↓
-
 Waiting
 ```
 
@@ -563,9 +567,7 @@ Who gets it?
 
 ```
 Could be B
-
 Could be C
-
 Could even be a new Thread D
 ```
 
@@ -575,21 +577,13 @@ Example:
 
 ```
 Arrival
-
 A
-
 B
-
 C
-
 --------
-
 Execution
-
 A
-
 C
-
 B
 ```
 
@@ -611,13 +605,9 @@ Now Java keeps a queue.
 
 ```
 A
-
 ↓
-
 B
-
 ↓
-
 C
 ```
 
@@ -625,9 +615,7 @@ When A releases:
 
 ```
 B gets lock
-
 ↓
-
 C gets lock
 ```
 
@@ -649,7 +637,6 @@ Most applications use the default **non-fair** lock.
 
 ```
 Lock lock = new ReentrantLock(true); // change to false
-
 Runnable task = () -> {
     lock.lock();
     try {
@@ -660,7 +647,6 @@ Runnable task = () -> {
         lock.unlock();
     }
 };
-
 for (int i = 1; i <= 5; i++) {
     new Thread(task, "T" + i).start();
 }
@@ -672,9 +658,7 @@ Think about a library.
 
 ```
 100 people
-
 ↓
-
 Reading books
 ```
 
@@ -686,9 +670,7 @@ Now suppose:
 
 ```
 One librarian
-
 ↓
-
 Updating books
 ```
 
@@ -702,7 +684,6 @@ ReadWriteLock separates:
 
 ```
 Read Lock
-
 Write Lock
 ```
 
@@ -712,25 +693,19 @@ Read Lock
 
 ```
 Reader A
-
 ↓
-
 Allowed
 ```
 
 ```
 Reader B
-
 ↓
-
 Allowed
 ```
 
 ```
 Reader C
-
 ↓
-
 Allowed
 ```
 
@@ -742,9 +717,7 @@ Write Lock
 
 ```
 Writer
-
 ↓
-
 Exclusive
 ```
 
@@ -762,7 +735,6 @@ Truth Table
 
 ```
 ReadWriteLock rw = new ReentrantReadWriteLock();
-
 Lock read = rw.readLock();
 Lock write = rw.writeLock();
 ```
@@ -771,7 +743,6 @@ Reader
 
 ```
 read.lock();
-
 try {
     System.out.println("Reading");
 } finally {
@@ -783,7 +754,6 @@ Writer
 
 ```
 write.lock();
-
 try {
     System.out.println("Writing");
 } finally {
@@ -797,25 +767,15 @@ try {
 
 ```
 Reader A
-
 ↓
-
 Read Lock
-
 ----------------
-
 Reader B
-
 ↓
-
 Read Lock
-
 ----------------
-
 Reader C
-
 ↓
-
 Read Lock
 ```
 
@@ -825,17 +785,11 @@ Now Writer comes.
 
 ```
 Writer
-
 ↓
-
 Wait
-
 ↓
-
 Readers Finish
-
 ↓
-
 Writer Runs
 ```
 

@@ -1,3 +1,11 @@
+### ⚡ TL;DR (Executive Summary)
+
+* A **process** is an independent running program with its own memory and resources; a **thread** is a lightweight execution path inside a process.
+* Threads in the same process share heap memory and resources but keep separate stacks, enabling concurrency with lower overhead than separate processes.
+* Know the thread lifecycle: `NEW` → `RUNNABLE` → blocked/waiting states when necessary → `TERMINATED`.
+* User threads keep the JVM alive; daemon threads provide background support and end when no user threads remain.
+
+---
 
 # What is a Process?
 
@@ -8,21 +16,15 @@ When you open an application like Chrome, IntelliJ, or Spotify, the operating sy
 Each process has its own:
 
 - Memory (Heap)
-    
 - Code
-    
 - Resources
-    
 - Threads
-
 
 Example:
 
 ```text
 Chrome.exe
-
 ↓
-
 Process
 ```
 
@@ -34,17 +36,13 @@ A **Thread** is the smallest unit of execution within a process.
 
 A process always has at least one thread called the **Main Thread**.
 
-Example:
+Example:1. Add a executive summary TLDR summary for each of them you can refer
 
 ```text
 Java Application
-
 ↓
-
 Process
-
 ↓
-
 Main Thread
 ```
 
@@ -54,13 +52,13 @@ A process can create multiple threads to perform tasks concurrently.
 
 # Process vs Thread
 
-|Process|Thread|
-|---|---|
-|Independent program|Smallest execution unit inside a process|
-|Has its own memory|Shares process memory|
-|Heavyweight|Lightweight|
-|Communication is expensive (IPC)|Communication is easy (shared memory)|
-|Context switch is slower|Context switch is faster|
+| Process                          | Thread                                   |
+| -------------------------------- | ---------------------------------------- |
+| Independent program              | Smallest execution unit inside a process |
+| Has its own memory               | Shares process memory                    |
+| Heavyweight                      | Lightweight                              |
+| Communication is expensive (IPC) | Communication is easy (shared memory)    |
+| Context switch is slower         | Context switch is faster                 |
 
 ---
 
@@ -70,21 +68,13 @@ Suppose you open IntelliJ.
 
 ```text
 Operating System
-
 ↓
-
 IntelliJ Process
-
 ↓
-
 Main Thread
-
 Background Indexing Thread
-
 Auto Save Thread
-
 UI Thread
-
 Git Thread
 ```
 
@@ -98,13 +88,9 @@ Without multithreading:
 
 ```text
 Download File
-
 ↓
-
 Wait
-
 ↓
-
 Update UI
 ```
 
@@ -114,17 +100,11 @@ With multithreading:
 
 ```text
 Main Thread
-
 ↓
-
 Update UI
-
 ------------
-
 Worker Thread
-
 ↓
-
 Download File
 ```
 
@@ -135,15 +115,10 @@ The UI remains responsive while the download happens in the background.
 # Advantages
 
 - Better CPU utilization
-    
 - Faster execution
-    
 - Responsive applications
-    
 - Concurrent task execution
-    
 - Improved throughput
-    
 
 ---
 
@@ -154,11 +129,8 @@ No.
 If tasks are:
 
 - Small
-    
 - Sequential
-    
 - Highly dependent
-    
 
 Creating extra threads may actually reduce performance because of thread creation and context switching overhead.
 
@@ -170,25 +142,15 @@ A thread goes through several states during its lifetime.
 
 ```text
 NEW
-
 ↓
-
 RUNNABLE
-
 ↓
-
 RUNNING (chosen by CPU scheduler)
-
 ↓
-
 BLOCKED / WAITING / TIMED_WAITING
-
 ↓
-
 RUNNABLE
-
 ↓
-
 TERMINATED
 ```
 
@@ -258,7 +220,6 @@ Examples:
 
 ```java
 wait()
-
 join()
 ```
 
@@ -272,9 +233,7 @@ Examples:
 
 ```java
 Thread.sleep(1000)
-
 join(1000)
-
 wait(1000)
 ```
 
@@ -286,13 +245,9 @@ The thread finishes execution.
 
 ```text
 run()
-
 ↓
-
 Completed
-
 ↓
-
 TERMINATED
 ```
 
@@ -309,11 +264,8 @@ The JVM waits for all user threads to finish before shutting down.
 Examples:
 
 - Main Thread
-    
 - Business Logic
-    
 - Request Processing
-    
 
 ---
 
@@ -326,17 +278,13 @@ The JVM does **not** wait for daemon threads.
 Examples:
 
 - Garbage Collector
-    
 - Background Cleanup
-    
 - Monitoring
-    
 
 Example:
 
 ```java
 Thread t = new Thread(task);
-
 t.setDaemon(true);
 ```
 
@@ -386,7 +334,6 @@ Threads share the same memory, making switching much faster.
 
 ```text
 Java Process
-
 +----------------------+
 | Heap (Shared)        |
 |                      |
@@ -395,9 +342,7 @@ Java Process
 | Thread C             |
 |                      |
 +----------------------+
-
 Each Thread Has:
-
 - Program Counter (PC)
 - Java Stack
 - Native Stack

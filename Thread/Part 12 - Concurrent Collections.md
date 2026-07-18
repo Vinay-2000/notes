@@ -1,5 +1,14 @@
 
 
+### ⚡ TL;DR (Executive Summary)
+
+* Concurrent collections provide safe shared data structures without manually synchronizing every access.
+* `ConcurrentHashMap` supports highly concurrent map access and disallows `null` keys and values; it scales better than synchronizing an entire `Hashtable`.
+* `CopyOnWriteArrayList` favors many reads and few writes by copying its backing array on each modification.
+* `BlockingQueue` coordinates producers and consumers through blocking `put()` and `take()` operations.
+
+---
+
 # Why Were Concurrent Collections Introduced?
 
 Suppose we have:
@@ -47,9 +56,7 @@ Most commonly used:
 
 ```
 ConcurrentHashMap
-
 CopyOnWriteArrayList
-
 BlockingQueue
 ```
 
@@ -75,9 +82,7 @@ It synchronized every operation.
 
 ```
 put()
-
 ↓
-
 Entire Table Locked
 ```
 
@@ -93,17 +98,11 @@ Instead of locking everything:
 
 ```
 Thread A
-
 ↓
-
 Bucket 1
-
 ----------------
-
 Thread B
-
 ↓
-
 Bucket 10
 ```
 
@@ -118,9 +117,7 @@ Much higher throughput.
 ```java
 ConcurrentHashMap<Integer, String> map =
         new ConcurrentHashMap<>();
-
 map.put(1, "Java");
-
 map.put(2, "Spring");
 ```
 
@@ -140,13 +137,9 @@ ConcurrentHashMap
 
 ```
 Fine-grained locking
-
 +
-
 CAS
-
 +
-
 Lock only when needed
 ```
 
@@ -208,7 +201,6 @@ Think:
 
 ```
 Many Reads
-
 Very Few Writes
 ```
 
@@ -216,9 +208,7 @@ Perfect example:
 
 ```
 Application Configuration
-
 Country List
-
 Product Categories
 ```
 
@@ -246,13 +236,9 @@ Java creates:
 
 ```
 Old
-
 [1,2,3]
-
 ↓
-
 New Copy
-
 [1,2,3,4]
 ```
 
@@ -266,7 +252,6 @@ Advantage
 
 ```
 Reads
-
 Very Fast
 ```
 
@@ -274,9 +259,7 @@ Disadvantage
 
 ```
 Writes
-
 Expensive
-
 (New Array Every Time)
 ```
 
@@ -287,9 +270,7 @@ Expensive
 ```java
 CopyOnWriteArrayList<String> list =
         new CopyOnWriteArrayList<>();
-
 list.add("Java");
-
 list.add("Spring");
 ```
 
@@ -325,7 +306,6 @@ Consumer keeps checking:
 
 ```java
 while(queue.isEmpty()){
-
 }
 ```
 
@@ -364,9 +344,7 @@ Example
 ```java
 BlockingQueue<Integer> queue =
         new LinkedBlockingQueue<>();
-
 queue.put(10);
-
 int value = queue.take();
 ```
 
@@ -398,11 +376,8 @@ Automatic synchronization.
 
 ```
 LinkedBlockingQueue
-
 ArrayBlockingQueue
-
 PriorityBlockingQueue
-
 DelayQueue
 ```
 
@@ -446,9 +421,7 @@ Queue
 
 ```
 poll()
-
 ↓
-
 Returns null
 ```
 
@@ -456,9 +429,7 @@ BlockingQueue
 
 ```
 take()
-
 ↓
-
 Wait Until Item Exists
 ```
 

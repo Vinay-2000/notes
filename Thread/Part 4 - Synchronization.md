@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* Synchronization protects shared heap data from race conditions by allowing only one thread at a time into a critical section for a given monitor.
+* `synchronized` methods and blocks use an intrinsic object lock; static synchronized methods lock the `Class` object instead.
+* Choose the lock scope deliberately: different object instances have different locks, while code synchronized on the same object coordinates correctly.
+* Synchronization provides mutual exclusion for guarded state; it does not prevent unrelated threads from running.
+
+---
+
 ## Why Do We Need Synchronization?
 
 Remember:

@@ -1,4 +1,13 @@
 
+### ⚡ TL;DR (Executive Summary)
+
+* Virtual threads are lightweight JVM-managed threads designed to let applications handle very large numbers of blocking, I/O-bound tasks with simple thread-per-request code.
+* They are scheduled on a smaller set of platform-thread carriers and can unmount while blocked, freeing carriers for other work.
+* They improve scalability for blocking I/O, not CPU-bound throughput; CPU-heavy work remains limited by processor cores.
+* Avoid pinning virtual threads by holding monitors during blocking operations; use them thoughtfully with `ThreadLocal` and existing frameworks.
+
+---
+
 > ⭐⭐⭐⭐⭐ Very Important for Java 21 Interviews
 
 ---
@@ -17,21 +26,13 @@ Traditional Thread Model
 
 ```
 10,000 Requests
-
 ↓
-
 Need Thousands of Platform Threads
-
 ↓
-
 Huge Memory Usage
-
 ↓
-
 OS Context Switching
-
 ↓
-
 Slow
 ```
 
@@ -53,9 +54,7 @@ Instead of
 
 ```
 1 Java Thread
-
 ↓
-
 1 OS Thread
 ```
 
@@ -75,13 +74,9 @@ Virtual Threads
 
 ```
 Java Thread
-
 ↓
-
 OS Thread
-
 ↓
-
 CPU
 ```
 
@@ -93,17 +88,11 @@ One Java thread owns one OS thread.
 
 ```
 Virtual Thread
-
 ↓
-
 JVM Scheduler
-
 ↓
-
 Small Pool of Platform Threads
-
 ↓
-
 CPU
 ```
 
@@ -127,11 +116,8 @@ Thousands of virtual threads share a much smaller number of platform threads.
 
 ```java
 Thread thread = new Thread(() -> {
-
     System.out.println("Platform Thread");
-
 });
-
 thread.start();
 ```
 
@@ -141,9 +127,7 @@ thread.start();
 
 ```java
 Thread.startVirtualThread(() -> {
-
     System.out.println("Virtual Thread");
-
 });
 ```
 
@@ -155,11 +139,8 @@ Another way
 
 ```java
 Thread.Builder builder = Thread.ofVirtual();
-
 Thread thread = builder.start(() -> {
-
     System.out.println("Hello");
-
 });
 ```
 
@@ -179,13 +160,9 @@ Use
 ```java
 try (ExecutorService executor =
          Executors.newVirtualThreadPerTaskExecutor()) {
-
     executor.submit(() -> {
-
         System.out.println("Hello");
-
     });
-
 }
 ```
 
@@ -199,9 +176,7 @@ Imagine
 
 ```
 1000 API Calls
-
 ↓
-
 Waiting for Database
 ```
 
@@ -209,13 +184,9 @@ Platform Threads
 
 ```
 Thread
-
 ↓
-
 Blocked
-
 ↓
-
 OS Thread Also Blocked
 ```
 
@@ -223,17 +194,11 @@ Virtual Threads
 
 ```
 Virtual Thread
-
 ↓
-
 Blocked
-
 ↓
-
 Platform Thread Released
-
 ↓
-
 Another Virtual Thread Uses It
 ```
 
@@ -247,9 +212,7 @@ Suppose
 
 ```
 Virtual Thread
-
 ↓
-
 Running
 ```
 
@@ -257,13 +220,9 @@ The JVM mounts it onto a platform thread.
 
 ```
 Virtual Thread
-
 ↓
-
 Platform Thread
-
 ↓
-
 CPU
 ```
 
@@ -281,13 +240,9 @@ the JVM does:
 
 ```
 Unmount
-
 ↓
-
 Platform Thread Free
-
 ↓
-
 Run Another Virtual Thread
 ```
 
@@ -295,13 +250,9 @@ Later
 
 ```
 Wake Up
-
 ↓
-
 Mount Again
-
 ↓
-
 Continue
 ```
 
@@ -315,13 +266,9 @@ Platform Thread
 
 ```
 Database Call
-
 ↓
-
 Waiting
-
 ↓
-
 OS Thread Wasted
 ```
 
@@ -329,17 +276,11 @@ Virtual Thread
 
 ```
 Database Call
-
 ↓
-
 Waiting
-
 ↓
-
 Platform Thread Returned To Pool
-
 ↓
-
 Another Virtual Thread Runs
 ```
 
@@ -353,9 +294,7 @@ Suppose
 
 ```
 10,000 Users
-
 ↓
-
 Calling REST API
 ```
 
@@ -369,9 +308,7 @@ Virtual Threads
 
 ```
 Need Thousands Of Virtual Threads
-
 ↓
-
 Only Small Number Of Platform Threads
 ```
 
@@ -428,11 +365,8 @@ Example
 
 ```
 Image Processing
-
 Machine Learning
-
 Encryption
-
 Video Encoding
 ```
 
@@ -468,9 +402,7 @@ Suppose
 
 ```java
 synchronized(this){
-
     Thread.sleep(5000);
-
 }
 ```
 
@@ -478,9 +410,7 @@ Normally
 
 ```
 Sleep
-
 ↓
-
 Unmount
 ```
 
@@ -496,13 +426,9 @@ Meaning
 
 ```
 Virtual Thread
-
 ↓
-
 Cannot Unmount
-
 ↓
-
 Platform Thread Blocked
 ```
 
@@ -531,9 +457,7 @@ Need to tune
 
 ```
 Pool Size
-
 Queue
-
 Max Threads
 ```
 
@@ -547,9 +471,7 @@ Usually
 
 ```
 One Virtual Thread
-
 ↓
-
 One Task
 ```
 
@@ -630,37 +552,21 @@ They improve scalability for blocking workloads.
 
 ```
 Platform Thread
-
 ↓
-
 Heavy
-
 ↓
-
 OS Thread
-
 --------------------
-
 Virtual Thread
-
 ↓
-
 Lightweight
-
 ↓
-
 JVM Scheduler
-
 ↓
-
 Platform Thread
-
 --------------------
-
 Best For
-
 ↓
-
 Blocking I/O
 ```
 
@@ -670,41 +576,23 @@ Blocking I/O
 
 ```
 HTTP Request
-
 ↓
-
 Virtual Thread Created
-
 ↓
-
 Calls Database
-
 ↓
-
 Waiting
-
 ↓
-
 Virtual Thread Unmounted
-
 ↓
-
 Platform Thread Free
-
 ↓
-
 Another Request Runs
-
 ↓
-
 Database Returns
-
 ↓
-
 Virtual Thread Mounted Again
-
 ↓
-
 Response Sent
 ```
 

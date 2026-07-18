@@ -1,3 +1,12 @@
+### ⚡ TL;DR (Executive Summary)
+
+* A **race condition** occurs when unsynchronized access to shared mutable data makes results depend on timing.
+* A **deadlock** is a circular wait for locks; prevent it with consistent lock ordering, timeouts, or less nested locking.
+* **Starvation** means a thread repeatedly loses access to needed resources, while **livelock** means threads remain active but make no progress.
+* Correct concurrency design must address safety (correct results) and liveness (eventual progress).
+
+---
+
 There are four major concurrency problems:
 
 1. Race Condition
@@ -23,13 +32,9 @@ Internally
 
 ```
 Read
-
 ↓
-
 Increment
-
 ↓
-
 Write
 ```
 
@@ -75,9 +80,7 @@ Solution
 
 ```
 synchronized
-
 ReentrantLock
-
 AtomicInteger
 ```
 
@@ -97,9 +100,7 @@ Thread A
 
 ```
 Lock A
-
 ↓
-
 Waiting for Lock B
 ```
 
@@ -107,9 +108,7 @@ Thread B
 
 ```
 Lock B
-
 ↓
-
 Waiting for Lock A
 ```
 
@@ -126,29 +125,17 @@ Example
 ```java
 Object lock1 = new Object();
 Object lock2 = new Object();
-
 Thread t1 = new Thread(() -> {
-
     synchronized(lock1){
-
         synchronized(lock2){
-
         }
-
     }
-
 });
-
 Thread t2 = new Thread(() -> {
-
     synchronized(lock2){
-
         synchronized(lock1){
-
         }
-
     }
-
 });
 ```
 
@@ -156,21 +143,13 @@ Possible
 
 ```
 T1 gets lock1
-
 ↓
-
 T2 gets lock2
-
 ↓
-
 T1 waits lock2
-
 ↓
-
 T2 waits lock1
-
 ↓
-
 Deadlock
 ```
 
@@ -184,9 +163,7 @@ Example
 
 ```
 lock1
-
 ↓
-
 lock2
 ```
 
@@ -204,17 +181,11 @@ Example
 
 ```
 High Priority Thread
-
 ↓
-
 Runs Again
-
 ↓
-
 Runs Again
-
 ↓
-
 Runs Again
 ```
 
@@ -222,9 +193,7 @@ Low priority thread
 
 ```
 Waiting...
-
 Waiting...
-
 Waiting...
 ```
 
@@ -238,13 +207,9 @@ Non-fair ReentrantLock
 
 ```
 Thread A waiting
-
 Thread B waiting
-
 New Thread C arrives
-
 ↓
-
 C gets lock
 ```
 
@@ -258,7 +223,6 @@ Solution
 
 ```
 Fair Lock
-
 new ReentrantLock(true)
 ```
 
@@ -278,9 +242,7 @@ Imagine two people in a hallway.
 
 ```
 Person A
-
 ↓
-
 Moves Left
 ```
 
@@ -318,17 +280,11 @@ Thread A
 
 ```
 tryLock()
-
 ↓
-
 Failed
-
 ↓
-
 Release
-
 ↓
-
 Retry
 ```
 
@@ -336,17 +292,11 @@ Thread B
 
 ```
 tryLock()
-
 ↓
-
 Failed
-
 ↓
-
 Release
-
 ↓
-
 Retry
 ```
 
@@ -364,9 +314,7 @@ Thread waits
 
 ```
 100ms
-
 200ms
-
 Random Delay
 ```
 
@@ -398,7 +346,6 @@ Livelock
 
 ```
 Threads Keep Moving
-
 But No Progress
 ```
 
@@ -427,9 +374,7 @@ Deadlock
 
 ```
 Lock Ordering
-
 tryLock()
-
 Timeout
 ```
 
@@ -437,7 +382,6 @@ Starvation
 
 ```
 Fair Scheduling
-
 Fair Lock
 ```
 
@@ -445,6 +389,5 @@ Livelock
 
 ```
 Random Delay
-
 Backoff Strategy
 ```

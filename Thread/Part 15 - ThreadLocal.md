@@ -1,12 +1,19 @@
+### ⚡ TL;DR (Executive Summary)
+
+* `ThreadLocal<T>` gives each thread an independent value associated with the same `ThreadLocal` key, avoiding shared-state interference.
+* It is useful for per-request context such as user, trace, or transaction metadata, especially where passing context through every method is impractical.
+* In thread pools, always call `remove()` after use so values do not leak into a later task or keep memory alive.
+* Thread-local state is isolated, not automatically copied between threads, and should be used cautiously with virtual threads.
+
+---
+
 # Problem
 
 Suppose we have one object shared by all threads.
 
 ```java
 class UserContext {
-
     String user;
-
 }
 ```
 
@@ -14,17 +21,13 @@ Multiple threads:
 
 ```
 Thread A
-
 ↓
-
 user = "Vinay"
 ```
 
 ```
 Thread B
-
 ↓
-
 user = "Sam"
 ```
 
@@ -32,13 +35,9 @@ Since both use the same object:
 
 ```
 Thread A
-
 ↓
-
 Vinay
-
 ↓
-
 Sam
 ```
 
@@ -115,13 +114,9 @@ Without ThreadLocal
 
 ```
 Thread A
-
 ↓
-
 Shared Variable
-
 ↑
-
 Thread B
 ```
 
@@ -133,25 +128,15 @@ With ThreadLocal
 
 ```
 Thread A
-
 ↓
-
 Vinay
-
 ----------------
-
 Thread B
-
 ↓
-
 Sam
-
 ----------------
-
 Thread C
-
 ↓
-
 John
 ```
 
@@ -164,17 +149,11 @@ Each thread has its own value.
 ```java
 ThreadLocal<String> user =
         new ThreadLocal<>();
-
 Runnable task = () -> {
-
     user.set(Thread.currentThread().getName());
-
     System.out.println(user.get());
-
 };
-
 new Thread(task, "Vinay").start();
-
 new Thread(task, "Sam").start();
 ```
 
@@ -182,7 +161,6 @@ Output
 
 ```
 Vinay
-
 Sam
 ```
 
@@ -196,9 +174,7 @@ Many people think
 
 ```
 ThreadLocal
-
 ↓
-
 Stores Data
 ```
 
@@ -206,17 +182,11 @@ Actually
 
 ```
 Thread
-
 ↓
-
 ThreadLocalMap
-
 ↓
-
 ThreadLocal
-
 ↓
-
 Value
 ```
 
@@ -230,25 +200,15 @@ Think:
 
 ```
 Thread A
-
 ↓
-
 ThreadLocalMap
-
 ↓
-
 user → Vinay
-
 --------------------
-
 Thread B
-
 ↓
-
 ThreadLocalMap
-
 ↓
-
 user → Sam
 ```
 
@@ -288,13 +248,9 @@ Suppose we're using a thread pool.
 
 ```
 Thread 1
-
 ↓
-
 Request A
-
 ↓
-
 user = Vinay
 ```
 
@@ -306,9 +262,7 @@ Later
 
 ```
 Thread 1
-
 ↓
-
 Request B
 ```
 
@@ -326,13 +280,9 @@ Always do
 
 ```java
 try {
-
     ...
-
 } finally {
-
     threadLocal.remove();
-
 }
 ```
 
@@ -441,28 +391,16 @@ To prevent stale data and memory leaks, especially in thread pools.
 
 ```
 Shared Variable
-
 ↓
-
 One Copy
-
 ↓
-
 Everyone Shares
-
 -------------------
-
 ThreadLocal
-
 ↓
-
 One Variable
-
 ↓
-
 Many Values
-
 ↓
-
 One Per Thread
 ```

@@ -1,4 +1,13 @@
  
+### ⚡ TL;DR (Executive Summary)
+
+* `Callable<T>` represents a task that returns a value and may throw checked exceptions; submitting it produces a `Future<T>`.
+* A `Future` lets you retrieve a result with `get()`, check completion with `isDone()`, cancel work, and wait with a timeout.
+* `get()` blocks and wraps task failures in `ExecutionException`, which makes `Future` useful but awkward for non-blocking composition.
+* Use `submit()` when you need a `Future`; use `execute()` for fire-and-forget `Runnable` work.
+
+---
+
 # Why Do We Need Future?
 
 Suppose you submit a task.
@@ -62,9 +71,7 @@ Suppose:
 
 ```
 Download File
-
 ↓
-
 Need Downloaded Content
 ```
 
@@ -79,12 +86,9 @@ Callable can.
 ```java
 ExecutorService executor =
         Executors.newFixedThreadPool(2);
-
 Future<String> future =
         executor.submit(() -> {
-
             return "Vinay";
-
         });
 ```
 
@@ -92,9 +96,7 @@ Notice:
 
 ```
 submit()
-
 ↓
-
 Future
 ```
 
@@ -112,21 +114,13 @@ Meaning:
 
 ```
 Task Finished?
-
 ↓
-
 No
-
 ↓
-
 Wait
-
 ↓
-
 Finished
-
 ↓
-
 Return Result
 ```
 
@@ -140,21 +134,13 @@ Difference:
 
 ```
 join()
-
 ↓
-
 Wait for Thread
-
 --------------------
-
 Future.get()
-
 ↓
-
 Wait for Task
-
 ↓
-
 Return Result
 ```
 
@@ -165,20 +151,13 @@ Return Result
 ```java
 ExecutorService executor =
         Executors.newSingleThreadExecutor();
-
 Future<Integer> future =
         executor.submit(() -> {
-
             Thread.sleep(2000);
-
             return 100;
-
         });
-
 System.out.println("Doing other work...");
-
 System.out.println(future.get());
-
 executor.shutdown();
 ```
 
@@ -186,9 +165,7 @@ Output
 
 ```
 Doing other work...
-
 (wait 2 sec)
-
 100
 ```
 
@@ -216,7 +193,6 @@ Returns
 
 ```
 true
-
 false
 ```
 
@@ -242,9 +218,7 @@ Meaning:
 
 ```
 Interrupt Task
-
 ↓
-
 Attempt Cancellation
 ```
 
@@ -252,7 +226,6 @@ Returns:
 
 ```
 true
-
 false
 ```
 
@@ -272,17 +245,11 @@ Meaning:
 
 ```
 Wait
-
 ↓
-
 Maximum 5 Seconds
-
 ↓
-
 Still Running?
-
 ↓
-
 TimeoutException
 ```
 
@@ -297,9 +264,7 @@ Suppose:
 ```java
 Callable<Integer> task =
         () -> {
-
             throw new RuntimeException();
-
         };
 ```
 
@@ -325,25 +290,15 @@ The original exception is wrapped inside it.
 
 ```
 submit()
-
 ↓
-
 Running
-
 ↓
-
 Completed
-
 ↓
-
 Future
-
 ↓
-
 get()
-
 ↓
-
 Result
 ```
 
@@ -351,17 +306,11 @@ or
 
 ```
 submit()
-
 ↓
-
 Running
-
 ↓
-
 Cancelled
-
 ↓
-
 CancellationException
 ```
 
@@ -373,9 +322,7 @@ Suppose a Spring Boot API needs:
 
 ```
 Employee Details
-
 Salary
-
 Projects
 ```
 
@@ -385,9 +332,7 @@ Submit all three.
 
 ```
 Future<Employee>
-
 Future<Salary>
-
 Future<List<Project>>
 ```
 
@@ -395,9 +340,7 @@ Later:
 
 ```java
 employee.get();
-
 salary.get();
-
 projects.get();
 ```
 
@@ -413,13 +356,9 @@ Suppose:
 
 ```
 Task A
-
 ↓
-
 Task B
-
 ↓
-
 Task C
 ```
 
@@ -502,32 +441,18 @@ The calling thread blocks until the task completes.
 
 ```
 Runnable
-
 ↓
-
 No Result
-
 -------------------
-
 Callable
-
 ↓
-
 Returns Result
-
 ↓
-
 submit()
-
 ↓
-
 Future
-
 ↓
-
 get()
-
 ↓
-
 Value
 ```
