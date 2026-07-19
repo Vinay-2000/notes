@@ -1,5 +1,3 @@
-
-
 ### 1. Why is Java so popular?
 
 **Interview Answer**

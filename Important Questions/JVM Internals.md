@@ -57,12 +57,70 @@ JDK
 3. **Application ClassLoader**
 
     - Loads application classes from the classpath.
-      Delegation Model:
-      Application
-      ↓
-      Platform
-      ↓
-      Bootstrap
+
+Delegation Model:
+Application
+↓
+Platform
+↓
+Bootstrap
+
+The **delegation model** means:
+
+> **A class loader never tries to load a class by itself first. It always asks its parent class loader to load it.**
+
+```
+Application ClassLoader
+        │
+        │ "Can you load this class?"
+        ▼
+Platform ClassLoader
+        │
+        │ "Can you load this class?"
+        ▼
+Bootstrap ClassLoader
+```
+
+Example 1: Loading java.lang.String
+Suppose your code is:
+String s = "Hello";
+
+The Application ClassLoader is asked to load java.lang.String.
+
+Step 1
+Application ClassLoader says:
+"Let me ask my parent first."
+↓
+Platform ClassLoader
+
+Step 2
+Platform ClassLoader says:
+"I'll ask my parent."
+↓
+Bootstrap ClassLoader
+
+Step 3
+Bootstrap says:
+"Yes! I know this class."
+It loads java.lang.String.
+
+The result is returned back:
+Bootstrap
+↑
+Platform
+↑
+Application
+Application never loads it itself.
+
+# Quick Revision Table
+
+| Phase              | What Happens                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **Loading**        | ClassLoader reads the `.class` file and creates the class representation.                         |
+| **Verification**   | JVM validates the bytecode for correctness and security.                                          |
+| **Preparation**    | Memory is allocated for static fields and initialized with default values (`0`, `null`, `false`). |
+| **Resolution**     | Symbolic references are converted into actual runtime references.                                 |
+| **Initialization** | Static field initializers and `static {}` blocks execute in source-code order.                    |
 
 ## Q4. How does the JVM execute code?
 
@@ -95,7 +153,7 @@ Method Parameters - Stack
 Static Variables - Metaspace
 Static Methods Metadata - Metaspace
 Class Metadata - Metaspace
-Constant Poo - l Metaspace
+Constant Pool - Metaspace
 JIT Compiled Code - Code Cache
 Program Counter - PC Register
 JNI Frames - Native Stack
