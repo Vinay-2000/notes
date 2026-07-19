@@ -25,14 +25,13 @@
 
 ## Collections
 
-- [ ]  List implementations
-- [ ]  Set implementations
-- [ ]  Map implementations
+- [x] List implementations ✅ 2026-07-19
+- [x] Set implementations ✅ 2026-07-19
+- [x] Map implementations ✅ 2026-07-19
 - [x]  HashMap internals
 - [x]  LinkedHashMap
-- [ ]  TreeMap
 - [x] ConcurrentHashMap ✅ 2026-07-12
-- [ ]  Comparable vs Comparator
+- [x] Comparable vs Comparator ✅ 2026-07-19
 - [x] equals() vs hashCode() ✅ 2026-07-12
 
 ## Multithreading
