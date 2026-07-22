@@ -195,6 +195,13 @@ Accessible from anywhere.
 
 private is not accessible.
 
+| Modifier                     | Within Class | Within Package | Outside Package <br>(Subclass Only <br> class that extends this) | World (Everywhere) |
+| ---------------------------- | ------------ | -------------- | ---------------------------------------------------------------- | ------------------ |
+| **`private`**                | Yes          | No             | No                                                               | No                 |
+| **`default`** _(No keyword)_ | Yes          | Yes            | No                                                               | No                 |
+| **`protected`**              | Yes          | Yes            | Yes                                                              | No                 |
+| **`public`**                 | Yes          | Yes            | Yes                                                              | Yes                |
+
 ------------------------------------------------------------------------
 
 ## 70. Which access modifiers are accessible in a different package?

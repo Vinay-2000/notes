@@ -1,4 +1,4 @@
-# Part 11B - thenCompose() vs thenCombine()
+
 
 ### ⚡ TL;DR (Executive Summary)
 * **`thenCompose()` (Sequential / Dependent):** Used when **Task B depends on the result of Task A**. It accepts a function returning a new `CompletableFuture` and automatically flattens it (like `flatMap` in Streams). Use case: Customer ID → Fetch Orders.

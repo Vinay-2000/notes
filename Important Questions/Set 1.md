@@ -68,6 +68,50 @@ Remember:
 - JRE = Run + Libraries
 - JDK = Develop + Run
 
+JDK
+├── JRE
+│   ├── JVM
+│   ├── Core Java libraries
+│   │     ├── rt.jar (Java 8)
+│   │     └── Modules (Java 9+)
+│   ├── Native libraries (.dll/.so)
+│   ├── Configuration files
+│   └── Other runtime resources
+│
+├── Compiler
+│   └── javac
+│
+├── Packaging tools
+│   ├── jar
+│   ├── jmod (Java 9+)
+│   └── jpackage (Java 14+)
+│
+├── Documentation tool
+│   └── javadoc
+│
+├── Debugging tools
+│   ├── jdb
+│   ├── jstack
+│   ├── jmap
+│   ├── jcmd
+│   └── jinfo
+│
+├── Monitoring & profiling tools
+│   ├── jconsole
+│   ├── jps
+│   ├── jstat
+│   └── jfr (Flight Recorder)
+│
+├── Security tools
+│   ├── keytool
+│   ├── jarsigner
+│   └── policytool (older JDKs)
+│
+└── Other utilities
+    ├── jshell (Java 9+)
+    ├── javap
+    └── serialver
+
 ---
 
 ### 5. Important differences between C++ and Java

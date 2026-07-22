@@ -7,17 +7,17 @@
 When an array is created, Java initializes its elements with default
 values based on the data type.
 
-  Data Type   Default Value
-  ----------- ------------------
-  byte        0
-  short       0
-  int         0
-  long        0L
-  float       0.0f
-  double      0.0
-  char        '`\u0`{=tex}000'
-  boolean     false
-  Object      null
+| Data Type | Size | Default Value |
+|-----------|------|---------------|
+| `byte` | 1 byte (8 bits) | `0` |
+| `short` | 2 bytes (16 bits) | `0` |
+| `int` | 4 bytes (32 bits) | `0` |
+| `long` | 8 bytes (64 bits) | `0L` |
+| `float` | 4 bytes (32 bits) | `0.0f` |
+| `double` | 8 bytes (64 bits) | `0.0` |
+| `char` | 2 bytes (16 bits, Unicode) | `'\u0000'` |
+| `boolean` | JVM-dependent (logical `true`/`false`) | `false` |
+| Object Reference | 4 or 8 bytes (JVM-dependent) | `null` |
 
 ``` java
 int[] arr = new int[3];

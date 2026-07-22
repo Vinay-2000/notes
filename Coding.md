@@ -157,12 +157,12 @@
 
 # Frequently Asked Java Coding Questions
 
-- [ ] Reverse Linked List
-- [ ] Detect Cycle in Linked List
+- [x] Reverse Linked List ✅ 2026-07-21
+- [x] Detect Cycle in Linked List ✅ 2026-07-21
 - [ ] LRU Cache
 - [ ] Implement Stack using Queue
 - [ ] Implement Queue using Stack
-- [ ] Balanced Parentheses
+- [x] Balanced Parentheses ✅ 2026-07-21
 - [ ] Binary Search
 - [ ] Merge Intervals
 - [ ] BFS / DFS Basics

@@ -283,11 +283,24 @@ abstract class Shape{
 ## 46. Abstract class vs Interface
 
   Abstract Class          Interface
-  ----------------------- -------------------------
+
   Can have state          No instance state
   Constructors allowed    No constructors
   Single inheritance      Multiple implementation
   Shared implementation   Contract
+
+
+| Feature | Abstract Class | Interface |
+|---------|----------------|-----------|
+| **State (Instance Variables)** | ✅ Can have instance state (fields) | ❌ No instance state (only `public static final` constants) |
+| **Constructors** | ✅ Constructors allowed | ❌ No constructors |
+| **Inheritance** | ❌ Single inheritance (`extends` one class) | ✅ Multiple implementation (`implements` multiple interfaces) |
+| **Purpose** | Shared implementation + partial abstraction | Contract / capability definition |
+| **Methods** | Can have abstract and concrete methods | Can have abstract, `default`, `static`, and `private` methods (Java 8/9+) |
+| **Access Modifiers** | Methods/fields can have any access modifier | Abstract methods are `public` by default; fields are `public static final` |
+| **Fields** | Can have mutable instance variables | Only constants (`public static final`) |
+| **Object Creation** | ❌ Cannot be instantiated | ❌ Cannot be instantiated |
+| **When to Use** | When classes share common state and behavior | When unrelated classes should follow the same contract |
 
 ------------------------------------------------------------------------
 

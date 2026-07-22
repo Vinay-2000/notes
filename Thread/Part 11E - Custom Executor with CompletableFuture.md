@@ -1,4 +1,4 @@
-# Part 11E - Custom Executor with CompletableFuture
+
 
 ### ⚡ TL;DR (Executive Summary)
 * **The Default Risk:** By default, standard async operations utilize `ForkJoinPool.commonPool()`. If mismatched tasks (like intense image processing and lightweight email triggers) share this single pool, a heavy process can completely stall unrelated components.
