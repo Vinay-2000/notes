@@ -2,15 +2,15 @@
 
 ## Java Basics
 
-- [x]  OOP
-- [x]  Access Modifiers
-- [x]  Abstract Class vs Interface
-- [x]  Marker Interfaces
-- [x]  Reflection
-- [x]  Serialization
-- [x]  transient
-- [x]  try-with-resources
-- [x]  AutoCloseable vs Closeable
+- [x] OOP
+- [x] Access Modifiers
+- [x] Abstract Class vs Interface
+- [x] Marker Interfaces
+- [x] Reflection
+- [x] Serialization
+- [x] transient
+- [x] try-with-resources
+- [x] AutoCloseable vs Closeable
 
 ## Java 8
 
@@ -21,15 +21,15 @@
 - [x] Optional ✅ 2026-07-11
 - [x] CompletableFuture ✅ 2026-07-12
 - [x] Default Methods ✅ 2026-07-04
-- [x]  Diamond Problem
+- [x] Diamond Problem
 
 ## Collections
 
 - [x] List implementations ✅ 2026-07-19
 - [x] Set implementations ✅ 2026-07-19
 - [x] Map implementations ✅ 2026-07-19
-- [x]  HashMap internals
-- [x]  LinkedHashMap
+- [x] HashMap internals
+- [x] LinkedHashMap
 - [x] ConcurrentHashMap ✅ 2026-07-12
 - [x] Comparable vs Comparator ✅ 2026-07-19
 - [x] equals() vs hashCode() ✅ 2026-07-12
@@ -61,28 +61,28 @@
 
 ## IoC
 
-- [x]  Dependency Injection
-- [x]  Constructor Injection
-- [x]  Setter Injection
-- [x]  Field Injection
-- [x]  Bean Scopes
-- [ ]  Bean Lifecycle
-- [ ]  BeanPostProcessor
-- [ ]  @PostConstruct
-- [ ]  @PreDestroy
+- [x] Dependency Injection
+- [x] Constructor Injection
+- [x] Setter Injection
+- [x] Field Injection
+- [x] Bean Scopes
+- [ ] Bean Lifecycle
+- [ ] BeanPostProcessor
+- [ ] @PostConstruct
+- [ ] @PreDestroy
 
 ## Bean Configuration
 
-- [x]  @Component
-- [x]  @Service
-- [x]  @Repository
-- [x]  @Controller
-- [x]  @RestController
-- [x]  @Configuration
-- [x]  @Bean
-- [x]  Lite Beans
-- [x]  @Qualifier
-- [x]  @Primary
+- [x] @Component
+- [x] @Service
+- [x] @Repository
+- [x] @Controller
+- [x] @RestController
+- [x] @Configuration
+- [x] @Bean
+- [x] Lite Beans
+- [x] @Qualifier
+- [x] @Primary
 
 ---
 
@@ -90,34 +90,34 @@
 
 ## Basics
 
-- [x]  Spring Boot Features
-- [x]  Auto Configuration
-- [x]  Starter Dependencies
-- [x]  BOM
-- [x]  Profiles
-- [x]  Configuration Properties
+- [x] Spring Boot Features
+- [x] Auto Configuration
+- [x] Starter Dependencies
+- [x] BOM
+- [x] Profiles
+- [x] Configuration Properties
 
 ## REST APIs
 
-- [x]  HTTP Methods
-- [x]  Idempotency
-- [x]  PUT vs PATCH
-- [x]  Status Codes
-- [x]  Path Param vs Query Param
-- [x]  Swagger / OpenAPI
+- [x] HTTP Methods
+- [x] Idempotency
+- [x] PUT vs PATCH
+- [x] Status Codes
+- [x] Path Param vs Query Param
+- [x] Swagger / OpenAPI
 
 ## Validation
 
-- [x]  @Valid
-- [x]  @Validated
-- [x]  Bean Validation
-- [ ]  Custom Validators
+- [x] @Valid
+- [x] @Validated
+- [x] Bean Validation
+- [ ] Custom Validators
 
 ## Exception Handling
 
-- [x]  @ControllerAdvice
-- [x]  @ExceptionHandler
-- [ ]  ResponseEntityExceptionHandler
+- [x] @ControllerAdvice
+- [x] @ExceptionHandler
+- [ ] ResponseEntityExceptionHandler
 
 ---
 
@@ -125,99 +125,99 @@
 
 ## Basics
 
-- [x]  ORM
-- [x]  JPA
-- [x]  Hibernate
+- [x] ORM
+- [x] JPA
+- [x] Hibernate
 
 ## Entity
 
-- [x]  Entity Lifecycle
-- [x]  Repository Hierarchy
-- [x]  Entity Creation
+- [x] Entity Lifecycle
+- [x] Repository Hierarchy
+- [x] Entity Creation
 
 ## Relationships
 
-- [x]  OneToOne
-- [x]  OneToMany
-- [x]  ManyToOne
-- [x]  ManyToMany
-- [x]  mappedBy
-- [x]  JoinColumn
-- [x]  JoinTable
+- [x] OneToOne
+- [x] OneToMany
+- [x] ManyToOne
+- [x] ManyToMany
+- [x] mappedBy
+- [x] JoinColumn
+- [x] JoinTable
 
 ## Fetching
 
-- [x]  Lazy
-- [x]  Eager
-- [x]  N+1 Problem
+- [x] Lazy
+- [x] Eager
+- [x] N+1 Problem
 
 ## Persistence
 
-- [x]  persist vs save
-- [x]  merge vs update
-- [x]  Dirty Checking
-- [x]  flush vs commit
+- [x] persist vs save
+- [x] merge vs update
+- [x] Dirty Checking
+- [x] flush vs commit
 
 ## Cache
 
-- [x]  First Level Cache
-- [x]  Second Level Cache
+- [x] First Level Cache
+- [x] Second Level Cache
 
 ## Transactions
 
-- [x]  Isolation
-- [x]  Propagation
-- [x]  Optimistic Locking
-- [x]  Pessimistic Locking
-- [x]  @Version
+- [x] Isolation
+- [x] Propagation
+- [x] Optimistic Locking
+- [x] Pessimistic Locking
+- [x] @Version
 
 ## Primary Keys
 
-- [x]  GeneratedValue
-- [x]  IDENTITY
-- [x]  SEQUENCE
-- [x]  TABLE
-- [x]  allocationSize
+- [x] GeneratedValue
+- [x] IDENTITY
+- [x] SEQUENCE
+- [x] TABLE
+- [x] allocationSize
 
 ## Cascade
 
-- [x]  Cascade Types
-- [x]  orphanRemoval
+- [x] Cascade Types
+- [x] orphanRemoval
 
 ## Remaining
 
-- [ ]  JPQL
-- [ ]  Native Query
-- [ ]  EntityManager
-- [ ]  find() vs getReference()
-- [ ]  @Embedded
-- [ ]  Composite Keys
-- [ ]  Inheritance Mapping
+- [ ] JPQL
+- [ ] Native Query
+- [ ] EntityManager
+- [ ] find() vs getReference()
+- [ ] @Embedded
+- [ ] Composite Keys
+- [ ] Inheritance Mapping
 
 ---
 
 # Spring Security
 
-- [ ]  Authentication
-- [ ]  Authorization
-- [ ]  JWT
-- [ ]  OAuth2 Basics
-- [ ]  Security Filter Chain
-- [ ]  OncePerRequestFilter
-- [ ]  PasswordEncoder
+- [x] Authentication ✅ 2026-08-09
+- [x] Authorization ✅ 2026-08-09
+- [x] JWT ✅ 2026-08-09
+- [x] OAuth2 Basics
+- [x] Security Filter Chain ✅ 2026-08-09
+- [x] OncePerRequestFilter ✅ 2026-08-09
+- [x] PasswordEncoder ✅ 2026-08-09
 
 ---
 
 # Spring Boot Internals
 
-- [ ]  DispatcherServlet
-- [ ]  Request Lifecycle
-- [ ]  Auto Configuration Internals
-- [ ]  Component Scan
-- [ ]  Bean Creation
-- [ ]  Proxy
-- [ ]  AOP
-- [ ]  Transactions Internals
+- [ ] DispatcherServlet
+- [ ] Request Lifecycle
+- [ ] Auto Configuration Internals
+- [ ] Component Scan
+- [ ] Bean Creation
+- [ ] Proxy
+- [ ] AOP
+- [ ] Transactions Internals
 
 ---
 
@@ -236,82 +236,82 @@
 
 # SQL
 
-- [ ]  Joins
-- [ ]  Group By
-- [ ]  Having
-- [ ]  Window Functions
-- [ ]  Indexes
-- [ ]  Normalization
+- [ ] Joins
+- [ ] Group By
+- [ ] Having
+- [ ] Window Functions
+- [ ] Indexes
+- [ ] Normalization
 - [x] ACID ✅ 2026-07-14
-- [ ]  Constraints
+- [ ] Constraints
 
 ---
 
 # REST
 
-- [x]  REST Principles
-- [x]  HTTP Methods
-- [x]  Status Codes
-- [ ]  HATEOAS
-- [ ]  Content Negotiation
-- [ ]  Versioning
+- [x] REST Principles
+- [x] HTTP Methods
+- [x] Status Codes
+- [ ] HATEOAS
+- [ ] Content Negotiation
+- [ ] Versioning
 
 ---
 
 # JUnit / Mockito
 
-- [x]  JUnit 4 vs 5
-- [x]  @Mock
-- [x]  @MockBean
-- [x]  Spy
-- [x]  WireMock
-- [x]  Static Mocking
-- [x]  Argument Matcher
-- [x]  doReturn vs when
+- [x] JUnit 4 vs 5
+- [x] @Mock
+- [x] @MockBean
+- [x] Spy
+- [x] WireMock
+- [x] Static Mocking
+- [x] Argument Matcher
+- [x] doReturn vs when
 
 ---
 
 # AWS (Based on Your Resume)
 
-- [ ]  ECS
-- [ ]  Lambda
-- [ ]  API Gateway
-- [ ]  S3
-- [ ]  CloudWatch
-- [ ]  IAM
-- [ ]  SQS
-- [ ]  Batch
-- [ ]  Auto Scaling
+- [ ] ECS
+- [ ] Lambda
+- [ ] API Gateway
+- [ ] S3
+- [ ] CloudWatch
+- [ ] IAM
+- [ ] SQS
+- [ ] Batch
+- [ ] Auto Scaling
 
 ---
 
 # Docker
 
-- [ ]  Dockerfile
-- [ ]  Image vs Container
-- [ ]  Volumes
-- [ ]  Networks
-- [ ]  Docker Compose
+- [ ] Dockerfile
+- [ ] Image vs Container
+- [ ] Volumes
+- [ ] Networks
+- [ ] Docker Compose
 
 ---
 
 # Kafka
 
-- [ ]  Producer
-- [ ]  Consumer
-- [ ]  Consumer Groups
-- [ ]  Offset
-- [ ]  Partition
-- [ ]  Replication
+- [ ] Producer
+- [ ] Consumer
+- [ ] Consumer Groups
+- [ ] Offset
+- [ ] Partition
+- [ ] Replication
 
 ---
 
 # Redis
 
-- [ ]  Why Redis
-- [ ]  Caching
-- [ ]  Eviction Policies
-- [ ]  TTL
+- [ ] Why Redis
+- [ ] Caching
+- [ ] Eviction Policies
+- [ ] TTL
 
 ---
 
@@ -328,10 +328,10 @@
 
 # Frequently Asked Coding Questions
 
-- [ ]  LRU Cache
-- [ ]  Producer Consumer
-- [ ]  Singleton Thread Safe
-- [ ]  Reverse Linked List
-- [ ]  Binary Search
-- [ ]  Streams Coding
-- [ ]  String Problems
+- [ ] LRU Cache
+- [ ] Producer Consumer
+- [ ] Singleton Thread Safe
+- [ ] Reverse Linked List
+- [ ] Binary Search
+- [ ] Streams Coding
+- [ ] String Problems
