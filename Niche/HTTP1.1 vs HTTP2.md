@@ -3,7 +3,7 @@
 **HTTP/2** (released in 2015) completely overhauled how data is framed and transported across TCP connections to fix these bottlenecks.
 
 ## Visualizing the Main Difference: Connection Handling
-![[Pasted image 20260731095944.png]]
+![[Http2 vs Http1.png]]
 
 ## 1. Multiplexing vs. Head-of-Line (HoL) Blocking
 
