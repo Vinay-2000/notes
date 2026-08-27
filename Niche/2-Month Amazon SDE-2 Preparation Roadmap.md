@@ -1,4 +1,3 @@
-# 2-Month Amazon SDE-2 Preparation Roadmap
 
 > Goal: Become interview-ready for Amazon SDE-2 and similar product
 > companies in 8 weeks.

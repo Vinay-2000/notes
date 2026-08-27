@@ -287,11 +287,11 @@
 
 # Docker
 
-- [ ] Dockerfile
-- [ ] Image vs Container
-- [ ] Volumes
-- [ ] Networks
-- [ ] Docker Compose
+- [x] Dockerfile ✅ 2026-08-24
+- [x] Image vs Container ✅ 2026-08-24
+- [x] Volumes ✅ 2026-08-24
+- [x] Networks ✅ 2026-08-24
+- [x] Docker Compose ✅ 2026-08-24
 
 ---
 

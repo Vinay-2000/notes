@@ -48,6 +48,10 @@ emp.name = "Vinay";
 State = `id=101`, `name=Vinay`
 
 ------------------------------------------------------------------------
+### Access Modifiers
+![[AccessModifiers.png]]
+
+---
 
 ## 26. What is the behavior of an object?
 

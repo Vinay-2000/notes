@@ -1,15 +1,13 @@
-# Advanced Object-Oriented Concepts & Modifiers
-
 ## 55. What is polymorphism?
 
 **Interview Answer**
 
-Polymorphism means **one interface, multiple implementations**. The same
+Polymorphism means "having many forms". It means **one interface, multiple implementations**. The same
 method call can behave differently depending on the actual object.
 
 Types: - Compile-time (Method Overloading) - Runtime (Method Overriding)
 
-``` java
+```java
 Animal animal = new Dog();
 animal.sound();   // Bark
 ```
@@ -17,13 +15,25 @@ animal.sound();   // Bark
 Runtime polymorphism is heavily used in Spring through Dependency
 Injection.
 
-------------------------------------------------------------------------
+**Upcasting** means converting a child class reference to a parent class reference. It is safe and usually happens implicitly. It is commonly used for runtime polymorphism because a parent reference can point to different child objects.
+```
+Dog dog = new Dog();
+Animal animal = dog;
+```
+
+**Downcasting** means converting a parent class reference back to a child class reference. It must be done explicitly and is only safe when the actual object is of that child type. Otherwise, Java throws `ClassCastException`.
+```
+Animal animal = new Dog();
+Dog dog = (Dog) animal;
+```
+
+---
 
 ## 56. What is the use of `instanceof`?
 
 It checks whether an object belongs to a particular class or interface.
 
-``` java
+```java
 if(obj instanceof String){
     System.out.println("It's a String");
 }
@@ -31,24 +41,24 @@ if(obj instanceof String){
 
 Since Java 16:
 
-``` java
+```java
 if(obj instanceof String s){
     System.out.println(s.length());
 }
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 57. What is coupling?
 
 Coupling measures how dependent one class is on another.
 
--   Tight coupling → Hard to maintain
--   Loose coupling → Easy to extend and test
+- Tight coupling → Hard to maintain
+- Loose coupling → Easy to extend and test
 
 Spring DI promotes loose coupling.
 
-------------------------------------------------------------------------
+---
 
 ## 58. What is cohesion?
 
@@ -59,14 +69,14 @@ High cohesion is desirable.
 
 Example: - `EmailService` should only handle email logic.
 
-------------------------------------------------------------------------
+---
 
 ## 59. What is encapsulation?
 
 Encapsulation means hiding implementation details and exposing only what
 is necessary.
 
-``` java
+```java
 class Employee{
     private String name;
 
@@ -82,13 +92,13 @@ class Employee{
 
 Benefits: - Data hiding - Validation - Better maintainability
 
-------------------------------------------------------------------------
+---
 
 ## 60. What is an inner class?
 
 A non-static class declared inside another class.
 
-``` java
+```java
 class Outer{
     class Inner{
     }
@@ -97,13 +107,13 @@ class Outer{
 
 Inner classes can directly access members of the outer class.
 
-------------------------------------------------------------------------
+---
 
 ## 61. What is a static inner class?
 
 A nested class declared using `static`.
 
-``` java
+```java
 class Outer{
     static class Inner{
     }
@@ -112,13 +122,13 @@ class Outer{
 
 It does not require an instance of the outer class.
 
-------------------------------------------------------------------------
+---
 
 ## 62. Can you create an inner class inside a method?
 
 Yes. It is called a **local inner class**.
 
-``` java
+```java
 void display(){
 
     class Local{
@@ -131,13 +141,13 @@ void display(){
 }
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 63. What is an anonymous class?
 
 A class without a name used for one-time implementations.
 
-``` java
+```java
 Runnable r = new Runnable(){
 
     @Override
@@ -149,7 +159,7 @@ Runnable r = new Runnable(){
 
 Nowadays Lambdas are preferred for functional interfaces.
 
-------------------------------------------------------------------------
+---
 
 # Modifiers
 
@@ -159,7 +169,7 @@ If no modifier is specified, the class has **package-private** access.
 
 It is accessible only within the same package.
 
-------------------------------------------------------------------------
+---
 
 ## 65. What is the private access modifier?
 
@@ -167,31 +177,31 @@ Accessible only inside the same class.
 
 Cannot be accessed outside directly.
 
-------------------------------------------------------------------------
+---
 
 ## 66. What is default (package-private) access?
 
 Accessible only within the same package.
 
-------------------------------------------------------------------------
+---
 
 ## 67. What is protected access?
 
 Accessible: - Same package - Subclasses in other packages
 
-------------------------------------------------------------------------
+---
 
 ## 68. What is public access?
 
 Accessible from anywhere.
 
-------------------------------------------------------------------------
+---
 
 ## 69. Which access modifiers are accessible in the same package?
 
--   public
--   protected
--   default
+- public
+- protected
+- default
 
 private is not accessible.
 
@@ -202,7 +212,7 @@ private is not accessible.
 | **`protected`**              | Yes          | Yes            | Yes                                                              | No                 |
 | **`public`**                 | Yes          | Yes            | Yes                                                              | Yes                |
 
-------------------------------------------------------------------------
+---
 
 ## 70. Which access modifiers are accessible in a different package?
 
@@ -210,63 +220,63 @@ Only: - public
 
 protected is accessible only through inheritance.
 
-------------------------------------------------------------------------
+---
 
 ## 71. Which modifiers are accessible from a subclass in the same package?
 
--   public
--   protected
--   default
+- public
+- protected
+- default
 
-------------------------------------------------------------------------
+---
 
 ## 72. Which modifiers are accessible from a subclass in another package?
 
--   public
--   protected
+- public
+- protected
 
-------------------------------------------------------------------------
+---
 
 ## 73. Use of `final` on a class
 
 A final class cannot be inherited.
 
-``` java
+```java
 final class Utility{
 }
 ```
 
 Example: - String
 
-------------------------------------------------------------------------
+---
 
 ## 74. Use of `final` on a method
 
 Cannot be overridden.
 
-------------------------------------------------------------------------
+---
 
 ## 75. What is a final variable?
 
 Can only be assigned once.
 
-``` java
+```java
 final int MAX = 100;
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 76. What is a final argument?
 
 Its value cannot be reassigned inside the method.
 
-``` java
+```java
 void display(final int x){
     // x = 20; // Compilation Error
 }
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 77. What happens when a variable is marked volatile?
 
@@ -276,7 +286,7 @@ Every read comes directly from main memory.
 
 It **does not provide atomicity**.
 
-``` java
+```java
 private volatile boolean running = true;
 ```
 
@@ -284,7 +294,7 @@ Common interview follow-up: \> Is volatile enough for count++?
 
 No. `count++` is not atomic.
 
-------------------------------------------------------------------------
+---
 
 ## 78. What is a static variable?
 
@@ -292,7 +302,7 @@ A static variable belongs to the class rather than individual objects.
 
 Only one copy exists.
 
-``` java
+```java
 class Employee{
 
     static int count = 0;
@@ -305,24 +315,26 @@ class Employee{
 
 Access using:
 
-``` java
+```java
 Employee.count;
 ```
 
-------------------------------------------------------------------------
+---
 
 # Interview Cheat Sheet
 
-  Concept         Meaning
-  --------------- ------------------------------------------
-  Polymorphism    Same interface, different implementation
-  Coupling        Dependency between classes
-  Cohesion        Relatedness of responsibilities
-  Encapsulation   Data hiding
-  volatile        Visibility only
-  final class     Cannot inherit
-  final method    Cannot override
-  static          Belongs to class
+Concept Meaning
+
+---
+
+Polymorphism Same interface, different implementation
+Coupling Dependency between classes
+Cohesion Relatedness of responsibilities
+Encapsulation Data hiding
+volatile Visibility only
+final class Cannot inherit
+final method Cannot override
+static Belongs to class
 
 ## Spring Boot Interview Connection
 
