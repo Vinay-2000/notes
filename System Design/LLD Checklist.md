@@ -3,7 +3,7 @@
 ## Tier 1 — Highest Priority
 
 - [ ] Parking Lot
-- [ ] Elevator System
+- [x] Elevator System
 - [ ] Library Management System
 - [ ] Tic-Tac-Toe
 - [ ] Snake and Ladder

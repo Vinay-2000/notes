@@ -1,7 +1,7 @@
 
-# 1. What is Docker?
+# What is Docker?
 
-## Definition
+#### Definition
 
 **Docker is a containerization platform used to package an application and its dependencies into a portable container image and run it consistently across environments.**
 
@@ -29,15 +29,18 @@ Instead of saying:
 
 We package the application environment so it can run consistently elsewhere.
 
-### Interview Answer
+#### Interview Answer
 
 > Docker packages an application and its dependencies into a container image, providing a consistent runtime environment across development, testing, and production.
 
+### What is a Docker container
+A Docker container is a lightweight, isolated runtime environment that runs an application together with its dependencies. Containers are created from Docker images and share the host OS kernel, unlike virtual machines which include a separate guest operating system. Docker uses Linux kernel features such as namespaces and cgroups to provide isolation and resource control.
+
 ---
 
-# 2. Docker vs Virtual Machine
+## 2. Docker vs Virtual Machine
 
-## VM
+### VM
 
 ```text
 Hardware
@@ -53,7 +56,7 @@ Application
 
 Each VM normally has its own guest operating system.
 
-## Container
+### Container
 
 ```text
 Hardware
@@ -69,7 +72,7 @@ Application
 
 Containers share the host kernel rather than running a complete guest OS.
 
-## Comparison
+### Comparison
 
 | VM | Container |
 |---|---|
@@ -79,15 +82,15 @@ Containers share the host kernel rather than running a complete guest OS.
 | Slower startup | Faster startup |
 | More resource usage | Generally more resource efficient |
 
-### Interview Answer
+#### Interview Answer
 
 > VMs virtualize an entire machine including a guest operating system, whereas containers provide process-level isolation while sharing the host kernel. That's why containers are generally lighter and faster to start.
 
 ---
 
-# 3. Hypervisor vs Docker Engine
+## 3. Hypervisor vs Docker Engine
 
-## Hypervisor
+### Hypervisor
 
 A **hypervisor** creates and manages virtual machines.
 
@@ -111,7 +114,7 @@ Examples:
 
 The hypervisor provides each VM with virtualized hardware.
 
-## Docker Engine / Container Runtime
+### Docker Engine / Container Runtime
 
 Docker provides the tooling and runtime needed to build and run containers.
 
@@ -127,17 +130,17 @@ Application
 
 The container does not normally need its own complete guest OS.
 
-### Interview Point
+#### Interview Point
 
 > A hypervisor virtualizes machines; Docker/container runtimes isolate application processes using OS-level mechanisms.
 
 ---
 
-# 4. Docker Image vs Container
+## 4. Docker Image vs Container
 
-## Image
+### Image
 
-### Definition
+#### Definition
 
 > A Docker image is an immutable package containing an application, its dependencies, and the filesystem/runtime information needed to create a container.
 
@@ -153,9 +156,9 @@ Example:
 my-spring-app:1.0
 ```
 
-## Container
+### Container
 
-### Definition
+#### Definition
 
 > A container is a running or stopped instance created from a Docker image.
 
@@ -179,9 +182,9 @@ C1  C2  C3
 
 ---
 
-# 5. Dockerfile
+## 5. Dockerfile
 
-## Definition
+#### Definition
 
 > A Dockerfile is a text file containing instructions used by Docker to build a container image.
 
@@ -199,7 +202,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## Important Dockerfile Instructions
+### Important Dockerfile Instructions
 
 | Instruction | Purpose |
 |---|---|
@@ -216,13 +219,13 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ---
 
-# 6. `FROM`
+## 6. `FROM`
 
 ```dockerfile
 FROM eclipse-temurin:21-jre
 ```
 
-### Definition
+#### Definition
 
 > `FROM` specifies the base image from which the new image is built.
 
@@ -238,7 +241,7 @@ Application Image
 
 ---
 
-# 7. `WORKDIR`
+## 7. `WORKDIR`
 
 ```dockerfile
 WORKDIR /app
@@ -260,7 +263,7 @@ the application works from:
 
 ---
 
-# 8. `COPY`
+## 8. `COPY`
 
 ```dockerfile
 COPY target/app.jar app.jar
@@ -288,9 +291,9 @@ was specified.
 
 ---
 
-# 9. `RUN`
+## 9. `RUN`
 
-### Definition
+#### Definition
 
 > `RUN` executes a command while building the image.
 
@@ -310,13 +313,13 @@ It does **not** happen every time the container starts if the resulting layer is
 
 ---
 
-# 10. `EXPOSE`
+## 10. `EXPOSE`
 
 ```dockerfile
 EXPOSE 8080
 ```
 
-### Definition
+#### Definition
 
 > `EXPOSE` documents the port on which the containerized application is expected to listen.
 
@@ -332,7 +335,7 @@ docker run -p 8080:8080 my-app
 
 ---
 
-# 11. Port Mapping
+## 11. Port Mapping
 
 ```bash
 docker run -p 8081:8080 my-app
@@ -351,13 +354,13 @@ If Spring Boot listens on container port `8080`, access it through:
 http://localhost:8081
 ```
 
-### Interview Trap
+#### Interview Trap
 
 `EXPOSE 8080` does not mean the application is automatically available on `localhost:8080`.
 
 ---
 
-# 12. `ENTRYPOINT` vs `CMD`
+## 12. `ENTRYPOINT` vs `CMD`
 
 Example:
 
@@ -379,13 +382,13 @@ Another common Spring Boot example:
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-### Interview Answer
+#### Interview Answer
 
 > `ENTRYPOINT` defines the main executable of the container, while `CMD` provides default arguments or a default command that can be overridden.
 
 ---
 
-# 13. Build Context
+## 13. Build Context
 
 When you run:
 
@@ -419,9 +422,9 @@ Docker can access those files for `COPY`.
 
 ---
 
-# 14. `.dockerignore`
+## 14. `.dockerignore`
 
-### Definition
+#### Definition
 
 > `.dockerignore` excludes files/directories from the Docker build context.
 
@@ -446,7 +449,7 @@ Benefits:
 
 ---
 
-# 15. Building a Spring Boot Image
+## 15. Building a Spring Boot Image
 
 If the JAR already exists:
 
@@ -476,7 +479,7 @@ docker run -p 8080:8080 my-app:1.0
 
 ---
 
-# 16. Maven Inside Docker
+## 16. Maven Inside Docker
 
 A Dockerfile can build the application itself.
 
@@ -503,9 +506,9 @@ For production, use a multi-stage build.
 
 ---
 
-# 17. Multi-stage Builds
+## 17. Multi-stage Builds
 
-### Definition
+#### Definition
 
 > A multi-stage Docker build uses multiple `FROM` stages so build tools can be kept out of the final runtime image.
 
@@ -534,7 +537,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## Build stage
+### Build stage
 
 Contains:
 
@@ -543,22 +546,22 @@ Contains:
 - Source code
 - Build dependencies
 
-## Runtime stage
+### Runtime stage
 
 Contains:
 
 - JRE
 - Application JAR
 
-### Benefit
+#### Benefit
 
 The final image is smaller and has a smaller attack surface.
 
 ---
 
-# 18. Docker `ARG`
+## 18. Docker `ARG`
 
-### Definition
+#### Definition
 
 > `ARG` defines a build-time variable.
 
@@ -591,9 +594,9 @@ Do not use `ARG` as a secure mechanism for secrets.
 
 ---
 
-# 19. Docker `ENV`
+## 19. Docker `ENV`
 
-### Definition
+#### Definition
 
 > `ENV` defines an environment variable that is available to the image/container.
 
@@ -619,9 +622,9 @@ docker run -e APP_MODE=dev my-app
 
 ---
 
-# 20. Docker Image Layers
+## 20. Docker Image Layers
 
-### Definition
+#### Definition
 
 > Docker images are built from layers representing filesystem changes produced during the image build.
 
@@ -641,9 +644,9 @@ Layers can be reused between builds/images.
 
 ---
 
-# 21. Docker Layer Caching
+## 21. Docker Layer Caching
 
-### Definition
+#### Definition
 
 > Docker can reuse previously built results when a Dockerfile instruction and its relevant inputs have not changed.
 
@@ -675,7 +678,7 @@ COPY src              → CACHE MISS
 Maven package         → rebuild
 ```
 
-## Why?
+### Why?
 
 Docker evaluates the Dockerfile sequentially and checks whether it can reuse a cached result based on the instruction and relevant build inputs/state.
 
@@ -683,7 +686,7 @@ For `COPY`, the contents/metadata of the files being copied are relevant.
 
 Once a cache miss occurs, subsequent dependent layers generally need to be rebuilt.
 
-### Optimization Rule
+#### Optimization Rule
 
 > Put instructions that change less frequently before instructions that change frequently.
 
@@ -707,7 +710,7 @@ With the second version, changing a Java source file can invalidate the layer co
 
 ---
 
-# 22. Where is Docker Build Cache Stored?
+## 22. Where is Docker Build Cache Stored?
 
 Docker manages build cache in its own Docker storage/build system.
 
@@ -727,9 +730,9 @@ docker builder prune
 
 ---
 
-# 23. Docker Image Optimization
+## 23. Docker Image Optimization
 
-### Main techniques
+#### Main techniques
 
 1. Multi-stage builds
 2. Use an appropriate minimal runtime image
@@ -739,15 +742,15 @@ docker builder prune
 6. Avoid unnecessary packages
 7. Use appropriate/versioned base images
 
-### Interview Answer
+#### Interview Answer
 
 > I'd use a multi-stage build so Maven and the JDK remain in the build stage and only the application artifact is copied into a minimal runtime image. I'd place stable files such as `pom.xml` before frequently changing source code to maximize layer-cache reuse, and I'd use `.dockerignore` to exclude unnecessary files.
 
 ---
 
-# 24. Docker Volumes
+## 24. Docker Volumes
 
-### Definition
+#### Definition
 
 > A Docker volume is Docker-managed persistent storage that allows data to survive beyond the lifecycle of a container.
 
@@ -789,9 +792,9 @@ docker run \
 
 ---
 
-# 25. Bind Mount
+## 25. Bind Mount
 
-### Definition
+#### Definition
 
 > A bind mount maps a specific host file/directory directly into a container.
 
@@ -815,7 +818,7 @@ Container
 /app/config
 ```
 
-## Volume vs Bind Mount
+### Volume vs Bind Mount
 
 | Volume | Bind Mount |
 |---|---|
@@ -825,9 +828,9 @@ Container
 
 ---
 
-# 26. Docker Compose
+## 26. Docker Compose
 
-### Definition
+#### Definition
 
 > Docker Compose is a tool for defining and running multi-container Docker applications using a YAML configuration file.
 
@@ -877,7 +880,7 @@ docker compose down
 
 ---
 
-# 27. Compose `build` vs `image`
+## 27. Compose `build` vs `image`
 
 ```yaml
 services:
@@ -907,7 +910,7 @@ It does not build services that only specify `image:`.
 
 ---
 
-# 28. Compose Service Names and DNS
+## 28. Compose Service Names and DNS
 
 Example:
 
@@ -951,7 +954,7 @@ Important:
 
 ---
 
-# 29. Compose Volumes
+## 29. Compose Volumes
 
 Example:
 
@@ -987,7 +990,7 @@ declares the named volume for Compose to manage.
 
 ---
 
-# 30. `depends_on`
+## 30. `depends_on`
 
 Example:
 
@@ -1015,9 +1018,9 @@ Health checks/readiness mechanisms are needed when readiness matters.
 
 ---
 
-# 31. Docker Registry
+## 31. Docker Registry
 
-### Definition
+#### Definition
 
 > A Docker/container registry is a service used to store, manage, and distribute container images.
 
@@ -1041,9 +1044,9 @@ docker pull
 
 ---
 
-# 32. Amazon ECR
+## 32. Amazon ECR
 
-### Definition
+#### Definition
 
 > Amazon Elastic Container Registry (ECR) is AWS's managed container registry for storing and distributing container images.
 
@@ -1071,7 +1074,7 @@ Typical image:
 
 ---
 
-# 33. Docker + CI/CD
+## 33. Docker + CI/CD
 
 Typical pipeline:
 
@@ -1097,7 +1100,7 @@ Deploy
 ECS / EKS
 ```
 
-### Key Principle
+#### Key Principle
 
 > Build once, deploy the same image across environments.
 
@@ -1107,7 +1110,7 @@ Environment-specific configuration should be supplied separately through configu
 
 ---
 
-# 34. Image Tags
+## 34. Image Tags
 
 Examples:
 
@@ -1128,9 +1131,9 @@ Benefits:
 
 ---
 
-# 35. ECS
+## 35. ECS
 
-### Definition
+#### Definition
 
 > Amazon ECS (Elastic Container Service) is AWS's managed container orchestration service used to deploy and manage containerized applications.
 
@@ -1152,7 +1155,7 @@ Integrate with AWS
 
 ---
 
-# 36. ECS Core Components
+## 36. ECS Core Components
 
 ```text
 ECS Cluster
@@ -1166,13 +1169,13 @@ Task
 Container
 ```
 
-## Cluster
+### Cluster
 
 Logical grouping/environment where ECS workloads run.
 
-## Task Definition
+### Task Definition
 
-### Definition
+#### Definition
 
 > A blueprint describing how ECS should run one or more containers.
 
@@ -1188,15 +1191,15 @@ Can contain:
 - Logging
 - Health checks
 
-## Task
+### Task
 
-### Definition
+#### Definition
 
 > A running instance of a task definition.
 
-## Service
+### Service
 
-### Definition
+#### Definition
 
 > An ECS service maintains the desired number of running tasks and manages their deployment/replacement.
 
@@ -1214,9 +1217,9 @@ If one crashes, ECS can launch a replacement to maintain the desired count.
 
 ---
 
-# 37. ECS EC2 vs Fargate
+## 37. ECS EC2 vs Fargate
 
-## ECS on EC2
+### ECS on EC2
 
 ```text
 AWS
@@ -1230,7 +1233,7 @@ Containers
 
 You manage the underlying EC2 capacity.
 
-## Fargate
+### Fargate
 
 ```text
 AWS
@@ -1244,13 +1247,13 @@ Container
 
 AWS manages the underlying compute infrastructure.
 
-### Interview Answer
+#### Interview Answer
 
 > With ECS on EC2, we manage the underlying EC2 capacity. With Fargate, AWS manages the underlying compute infrastructure and we specify task-level resources such as CPU and memory.
 
 ---
 
-# 38. ECS + ALB
+## 38. ECS + ALB
 
 Typical architecture:
 
@@ -1285,9 +1288,9 @@ The exact architecture depends on the application.
 
 ---
 
-# 39. Docker Health Checks
+## 39. Docker Health Checks
 
-### Definition
+#### Definition
 
 > A health check determines whether the application inside a running container is actually functioning, rather than only checking whether its process is alive.
 
@@ -1316,7 +1319,7 @@ Important practical point:
 
 ---
 
-# 40. Spring Boot Health Checks
+## 40. Spring Boot Health Checks
 
 Spring Boot Actuator commonly exposes:
 
@@ -1336,15 +1339,15 @@ Spring Boot
 
 ---
 
-# 41. Container Health vs ALB Health
+## 41. Container Health vs ALB Health
 
 These are separate mechanisms.
 
-## Container health
+### Container health
 
 Configured through the container/task configuration and checks application/container health.
 
-## ALB health
+### ALB health
 
 The Application Load Balancer checks whether a target should receive traffic.
 
@@ -1358,13 +1361,13 @@ Container
 
 A target can be removed from traffic when the ALB considers it unhealthy.
 
-### Important
+#### Important
 
 > Docker `HEALTHCHECK` and ALB health checks are not the same mechanism.
 
 ---
 
-# 42. Running vs Healthy
+## 42. Running vs Healthy
 
 ```text
 RUNNING
@@ -1381,9 +1384,9 @@ A Docker health check reporting `unhealthy` does not by itself mean Docker autom
 
 ---
 
-# 43. Docker Security
+## 43. Docker Security
 
-## 1. Don't run as root
+### 1. Don't run as root
 
 Use:
 
@@ -1407,7 +1410,7 @@ USER appuser
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## 2. Don't bake secrets into images
+### 2. Don't bake secrets into images
 
 Avoid:
 
@@ -1422,7 +1425,7 @@ Prefer runtime secret injection through:
 - Kubernetes Secrets
 - Other secret management systems
 
-## 3. Use trusted/minimal base images
+### 3. Use trusted/minimal base images
 
 Fewer unnecessary packages generally means:
 
@@ -1434,7 +1437,7 @@ Smaller attack surface
 Fewer potential vulnerabilities
 ```
 
-## 4. Scan images
+### 4. Scan images
 
 Common tools/services:
 
@@ -1442,7 +1445,7 @@ Common tools/services:
 - Grype
 - ECR image scanning
 
-## 5. Prefer versioned image tags
+### 5. Prefer versioned image tags
 
 Avoid relying only on:
 
@@ -1460,9 +1463,9 @@ or a commit identifier.
 
 ---
 
-# 44. Docker Troubleshooting
+## 44. Docker Troubleshooting
 
-## First Principle
+### First Principle
 
 Troubleshoot by layers:
 
@@ -1482,7 +1485,7 @@ Dependency
 
 ---
 
-## Scenario: Container exits immediately
+### Scenario: Container exits immediately
 
 Check:
 
@@ -1501,7 +1504,7 @@ Possible causes:
 
 ---
 
-## Scenario: Container running but API inaccessible
+### Scenario: Container running but API inaccessible
 
 Check:
 
@@ -1529,7 +1532,7 @@ localhost:8081 → container:8080
 
 ---
 
-## Scenario: Spring Boot cannot connect to PostgreSQL
+### Scenario: Spring Boot cannot connect to PostgreSQL
 
 Check:
 
@@ -1554,7 +1557,7 @@ localhost:5432
 
 ---
 
-## Scenario: Container keeps restarting
+### Scenario: Container keeps restarting
 
 Check:
 
@@ -1574,7 +1577,7 @@ Common causes:
 
 ---
 
-## Scenario: Port already in use
+### Scenario: Port already in use
 
 Error:
 
@@ -1592,7 +1595,7 @@ or identify the process using the host port.
 
 ---
 
-## Scenario: Need to inspect a running container
+### Scenario: Need to inspect a running container
 
 ```bash
 docker exec -it <container> /bin/sh
@@ -1609,7 +1612,7 @@ depending on what tools exist in the image.
 
 ---
 
-## Scenario: Need detailed container configuration
+### Scenario: Need detailed container configuration
 
 ```bash
 docker inspect <container>
@@ -1626,7 +1629,7 @@ Useful for:
 
 ---
 
-## Scenario: Need resource usage
+### Scenario: Need resource usage
 
 ```bash
 docker stats
@@ -1641,7 +1644,7 @@ Shows:
 
 ---
 
-# 45. High-Value Docker Commands
+## 45. High-Value Docker Commands
 
 ```bash
 # Images
@@ -1693,7 +1696,7 @@ docker builder prune
 
 ---
 
-# 46. Docker + Kubernetes/EKS
+## 46. Docker + Kubernetes/EKS
 
 Kubernetes is a container orchestration platform.
 
@@ -1714,7 +1717,7 @@ Roll out
 Manage containers
 ```
 
-## Important modern detail
+#### Important modern detail
 
 Kubernetes does not require Docker Engine as its container runtime.
 
@@ -1728,7 +1731,7 @@ Docker-built OCI-compatible images can still be used.
 
 ---
 
-# 47. Docker Image → EKS
+## 47. Docker Image → EKS
 
 Flow:
 
@@ -1758,9 +1761,9 @@ The Kubernetes node's container runtime pulls the image from ECR and starts the 
 
 ---
 
-# 48. Kubernetes Pod
+## 48. Kubernetes Pod
 
-### Definition
+#### Definition
 
 > A Pod is Kubernetes' smallest deployable unit and can contain one or more containers that share networking and storage resources.
 
@@ -1781,7 +1784,7 @@ A Pod contains one or more containers.
 
 ---
 
-# 49. Docker Compose vs ECS vs Kubernetes
+## 49. Docker Compose vs ECS vs Kubernetes
 
 | Technology | Main Purpose |
 |---|---|
@@ -1792,7 +1795,7 @@ A Pod contains one or more containers.
 | Kubernetes | Container orchestration |
 | EKS | AWS managed Kubernetes |
 
-### Key distinction
+#### Key distinction
 
 Compose is not normally your production ECS/Kubernetes orchestration model.
 
@@ -1816,7 +1819,7 @@ Spring Boot containers
 
 ---
 
-# 50. Kubernetes YAML vs Helm
+## 50. Kubernetes YAML vs Helm
 
 Kubernetes has its own configuration model using YAML manifests.
 
@@ -1838,9 +1841,9 @@ These can be applied directly:
 kubectl apply -f deployment.yaml
 ```
 
-## Helm
+### Helm
 
-### Definition
+#### Definition
 
 > Helm is a package manager for Kubernetes that uses templates and values to simplify managing Kubernetes resources.
 
@@ -1873,9 +1876,9 @@ Helm does not replace Kubernetes.
 
 ---
 
-# 51. Complete AWS Deployment Flow
+## 51. Complete AWS Deployment Flow
 
-## ECS
+### ECS
 
 ```text
 Developer
@@ -1903,7 +1906,7 @@ Containers
 Spring Boot
 ```
 
-## EKS
+### EKS
 
 ```text
 Developer
@@ -1933,15 +1936,15 @@ Spring Boot
 
 ---
 
-# 52. One-Minute Docker Interview Answer
+## 52. One-Minute Docker Interview Answer
 
 > Docker is a containerization platform that packages an application and its dependencies into an image. A container is a running instance of that image. We define images using Dockerfiles and build them with `docker build`. Images are composed of layers, and Docker can reuse unchanged layers through build caching. For multi-container local development we can use Docker Compose. In AWS, we can push images to ECR and deploy them through ECS or EKS. For optimization, we use multi-stage builds, appropriate runtime images, layer caching, and `.dockerignore`. For security, we avoid running as root, don't bake secrets into images, and scan images for vulnerabilities.
 
 ---
 
-# 53. High-Value Interview Questions
+## 53. High-Value Interview Questions
 
-## Fundamentals
+### Fundamentals
 
 1. What is Docker?
 2. Why do we use Docker?
@@ -1949,7 +1952,7 @@ Spring Boot
 4. Hypervisor vs Docker Engine?
 5. Image vs Container?
 
-## Dockerfile
+### Dockerfile
 
 6. What is a Dockerfile?
 7. Explain `FROM`, `WORKDIR`, `COPY`, `RUN`, `EXPOSE`.
@@ -1958,7 +1961,7 @@ Spring Boot
 10. `COPY` vs `ADD`?
 11. What is a multi-stage build?
 
-## Build & Optimization
+### Build & Optimization
 
 12. What is Docker build context?
 13. What is `.dockerignore`?
@@ -1968,7 +1971,7 @@ Spring Boot
 17. How would you reduce image size?
 18. Why use JRE instead of JDK in the runtime image?
 
-## Runtime / Networking
+### Runtime / Networking
 
 19. What does `docker run -p 8081:8080` mean?
 20. Why can't one container use `localhost` to reach another?
@@ -1976,7 +1979,7 @@ Spring Boot
 22. What are Docker volumes?
 23. Volume vs bind mount?
 
-## Compose
+### Compose
 
 24. What is Docker Compose?
 25. `docker compose build` vs `docker compose up --build`?
@@ -1984,7 +1987,7 @@ Spring Boot
 27. What does `depends_on` do?
 28. Why doesn't `depends_on` guarantee readiness?
 
-## AWS
+### AWS
 
 29. What is a Docker registry?
 30. What is ECR?
@@ -1993,7 +1996,7 @@ Spring Boot
 33. ECS EC2 vs Fargate?
 34. How does an ECS service handle a failed task?
 
-## Health / Security
+### Health / Security
 
 35. Running vs healthy container?
 36. Docker health check vs ALB health check?
@@ -2002,7 +2005,7 @@ Spring Boot
 39. Why avoid running as root?
 40. Why scan container images?
 
-## Troubleshooting
+### Troubleshooting
 
 41. Container exits immediately. What do you check?
 42. Container is running but API is inaccessible.
@@ -2013,7 +2016,7 @@ Spring Boot
 
 ---
 
-# 54. Must-Remember Concepts
+## 54. Must-Remember Concepts
 
 If you are short on revision time, prioritize these:
 
@@ -2066,7 +2069,7 @@ If you are short on revision time, prioritize these:
 
 ---
 
-# 55. Quick Mental Model
+## 55. Quick Mental Model
 
 ```text
                  Dockerfile
@@ -2094,7 +2097,7 @@ If you are short on revision time, prioritize these:
 
 ---
 
-# 56. Final Interview Perspective
+## 56. Final Interview Perspective
 
 For a 3+ year Spring Boot developer, you do **not** need to memorize every Docker command or understand Docker internals at operating-system level.
 
