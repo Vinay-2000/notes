@@ -310,3 +310,94 @@ return true;
     
 ```
 
+### String Compression
+```
+class Solution {
+
+    public int compress(char[] chars) {
+        char curr = chars[0];
+        int count = 1;
+
+        int left = 0;
+        int right = 1;
+        while (right < chars.length) {
+            if (chars[right] == curr) {
+                count++;
+                right++;
+            } 
+            else{
+                chars[left] = curr;
+                left++;
+                if (count > 1) {
+                    for (char a : String.valueOf(count).toCharArray()) {
+                        chars[left] = a;
+                        left++;
+                    }
+                }
+                curr = chars[right];
+                count = 0;
+            }
+            
+        }
+        chars[left] = curr;
+                left++;
+                if (count > 1) {
+                    for (char a : String.valueOf(count).toCharArray()) {
+                        chars[left] = a;
+                        left++;
+                    }
+                }
+        return left;
+        
+    }
+}
+```
+
+### Find Second Largest
+
+```
+class Solution {
+    public int getSecondLargest(int[] arr) {
+        // code here
+        int max = -1;
+        int secondMax=-1;
+        
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] > max){
+                secondMax = max;
+                max = arr[i];
+            }
+            else if(arr[i] > secondMax && arr[i] !=max ){
+                secondMax = arr[i];
+            }
+        }
+        return secondMax;
+    }
+}
+```
+
+### Remove Duplicates in sorted array
+
+```
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 1) return 1;
+
+        int left = 0;
+        int right = 0;
+        while(right < nums.length){
+            if(nums[right] == nums[left]){
+                right++;
+            }
+            else{
+                left++;
+                if(left!=right){
+                    nums[left] = nums[right];
+                }
+                right++;
+            }
+        }
+        return left+1;
+    }
+}
+```

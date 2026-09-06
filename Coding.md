@@ -9,14 +9,14 @@
 - [x] Character Frequency Map ✅ 2026-07-06
 - [x] Check Anagram ✅ 2026-07-06
 - [x] Longest Common Prefix ✅ 2026-07-06
-- [ ] String Compression
+- [x] String Compression
 
 ---
 
 # Arrays
 
-- [ ] Find Second Largest
-- [ ] Remove Duplicates
+- [x] Find Second Largest
+- [x] Remove Duplicates
 - [ ] Rotate Array
 - [ ] Move Zeros to End
 - [ ] Merge Two Sorted Arrays
@@ -149,7 +149,7 @@
 - [ ] URL Shortener
 - [ ] Parking Lot
 - [ ] BookMyShow
-- [ ] Elevator System
+- [x] Elevator System
 - [ ] Chess (Basic)
 - [ ] Coffee Machine
 
