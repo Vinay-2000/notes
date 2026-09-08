@@ -172,6 +172,73 @@ public void printOdd() {
 ```
 
 ## Print 1 to 100 using 3 threads
+```
+//Best
+class NumberPrinter {
+
+    private int number = 0;
+
+    public synchronized void print(int remainder) throws InterruptedException {
+
+        while (number <= 100) {
+
+            // Not this thread's turn
+            while (number <= 100 && number % 3 != remainder) {
+                wait();
+            }
+
+            // Number may have become > 100 after being notified
+            if (number > 100) {
+                notifyAll();
+                return;
+            }
+
+            System.out.println(
+                Thread.currentThread().getName() + " -> " + number
+            );
+
+            number++;
+
+            notifyAll();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        NumberPrinter printer = new NumberPrinter();
+
+        Thread t1 = new Thread(() -> {
+            try {
+                printer.print(0);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "A");
+
+        Thread t2 = new Thread(() -> {
+            try {
+                printer.print(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "B");
+
+        Thread t3 = new Thread(() -> {
+            try {
+                printer.print(2);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "C");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
 
 ```
 int count = 1;

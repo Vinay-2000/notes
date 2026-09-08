@@ -49,3 +49,92 @@
 |**IdentityHashMap**|Uses `==` instead of `equals()` for key comparison.|
 |**EnumMap**|Array-backed map optimized for enum keys.|
 
+| Feature                           | `HashMap`                 | `Hashtable`                         | `ConcurrentHashMap`                                         |
+| --------------------------------- | ------------------------- | ----------------------------------- | ----------------------------------------------------------- |
+| **Thread-safe?**                  | ❌ No                      | ✅ Yes                               | ✅ Yes                                                       |
+| **Synchronization**               | None                      | Synchronizes methods                | Fine-grained concurrency / CAS + synchronization internally |
+| **Performance in concurrent use** | Unsafe                    | Lower due to coarse-grained locking | Better concurrency                                          |
+| **Null key**                      | ✅ One                     | ❌ No                                | ❌ No                                                        |
+| **Null values**                   | ✅ Multiple                | ❌ No                                | ❌ No                                                        |
+| **Introduced**                    | Java 1.2                  | Java 1.0                            | Java 1.5                                                    |
+| **Legacy?**                       | No                        | ✅ Yes                               | No                                                          |
+| **Iterator behavior**             | Fail-fast, best-effort    | Fail-fast, best-effort              | Weakly consistent                                           |
+| **Use case**                      | Normal/non-concurrent map | Legacy code                         | Concurrent applications                                     |
+**`putIfAbsent` → give me a value if key doesn't exist**  
+**`computeIfAbsent` → calculate a value if key doesn't exist**
+
+---
+
+#### `putIfAbsent()`
+
+```
+Map<String, Integer> map = new HashMap<>();
+
+map.put("A", 100);
+
+map.putIfAbsent("A", 200);
+```
+Result:
+```
+A → 100
+```
+Because `"A"` already exists, `200` is **not inserted**.
+
+`ConcurrentHashMap.putIfAbsent()` provides the required atomicity for concurrent use.
+
+---
+
+#### `computeIfAbsent()`
+
+Here, instead of giving the value directly, you give a **function that calculates the value**.
+
+```
+Map<String, Integer> map = new HashMap<>();
+
+map.computeIfAbsent("A", key -> key.length());
+```
+The key `"A"` doesn't exist, so:
+```
+"A" → 1
+```
+
+The lambda:
+```
+key -> key.length()
+```
+is executed to calculate the value.
+If `"A"` already exists: The calculation is **not performed**, because `"A"` already has a value.
+
+---
+`merge()` is a **Map method** used when you want to **combine a new value with an existing value for the same key**.
+
+Think:
+> **`merge` → "If key exists, combine old + new. If not, insert the new value."**
+
+##### Basic example
+```
+Map<String, Integer> map = new HashMap<>();
+
+map.put("A", 10);
+
+map.merge("A", 5, (oldValue, newValue) -> oldValue + newValue);
+```
+
+Result:
+```
+A → 15
+```
+
+Because `"A"` already exists:
+```
+old value = 10
+new value = 5
+
+10 + 5 = 15
+```
+
+There is no `"A"`:
+
+```
+A → 5
+```
