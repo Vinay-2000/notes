@@ -17,14 +17,14 @@
 
 - [x] Find Second Largest
 - [x] Remove Duplicates
-- [ ] Rotate Array
-- [ ] Move Zeros to End
-- [ ] Merge Two Sorted Arrays
-- [ ] Two Sum
-- [ ] Maximum Subarray
-- [ ] Find Missing Number
-- [ ] Stock Buy & Sell
-- [ ] Majority Element
+- [x] Rotate Array
+- [x] Move Zeros to End
+- [x] Merge Two Sorted Arrays
+- [x] Two Sum
+- [x] Maximum Subarray
+- [x] Find Missing Number
+- [x] Stock Buy & Sell
+- [x] Majority Element
 
 ---
 

@@ -1,0 +1,16 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.folder == "Interview/Interview Set 2"
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: list
+    name: View
+    filters:
+      and:
+        - file.folder == "Interview/Interview Set 2"
+    indentProperties: false
+    cardSize: 300

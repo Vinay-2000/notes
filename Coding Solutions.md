@@ -401,3 +401,154 @@ class Solution {
     }
 }
 ```
+
+
+### Rotate Array
+
+```
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+
+        reverse(nums, 0, n - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, n - 1);
+    }
+
+    private void reverse(int[] nums, int left, int right) {
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+
+            left++;
+            right--;
+        }
+    }
+}
+
+Other solutions
+public void rotate(int[] nums, int k) {
+        if(nums.length == 1) return;
+         k = k % nums.length;
+        int temp1 = nums[0];
+        int temp2;
+        
+        for (int j = 0; j < k; j++) {
+            for (int i = 1; i < nums.length; i++) {
+                temp2 = nums[i];
+                nums[i] = temp1;
+                temp1 = temp2;
+            }
+            nums[0] = temp1;
+        }
+        //Using extra array
+        int[] res = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if(i+k >= nums.length){
+                int index = (i+k) % nums.length;
+                res[index]  = nums[i];
+            }
+            else res[i+k] = nums[i];
+
+        }
+         for (int i = 0; i < nums.length; i++) {
+             nums[i] = res[i];
+         }
+    }
+```
+### Move Zeros to End
+
+```
+ public void moveZeroes(int[] nums) {
+        int left = 0;
+        int right =0;
+
+        while(right < nums.length){
+            if(nums[right] != 0){
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+                left++;
+                right++;
+            }else{
+                right++;
+            }
+        }
+    }
+```
+
+### Merge Two Sorted Arrays
+```
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;          // last valid element in nums1
+        int j = n - 1;          // last element in nums2
+        int k = m + n - 1;      // position to fill
+
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            } else {
+                nums1[k] = nums2[j];
+                j--;
+            }
+            k--;
+        }
+
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            j--;
+            k--;
+        }
+    }
+}
+```
+
+### Maximum Subarray
+```
+ public int maxSubArray(int[] nums) {
+       int max = Integer.MIN_VALUE;
+        int curr = 0;
+       for(int i=0; i < nums.length; i++){
+            curr += nums[i];
+            max = Math.max(max, curr);
+            if(curr < 0) curr = 0;
+       } 
+       return max;
+    }
+```
+
+### Stock Buy & Sell
+```
+public int maxProfit(int[] prices) {
+        int max = 0;
+        int low = prices[0];
+        for(int i=0; i < prices.length; i++){
+            if(prices[i] < low) low = prices[i];
+            else max = Math.max(prices[i] - low, max);
+        }
+        return max;
+    }
+```
+
+### Majority Element
+
+```
+public int majorityElement(int[] nums) {
+        int count = 1;
+        int curr = nums[0];
+        for(int i=1; i < nums.length; i++){
+            if(nums[i] != curr) count--;
+            else count++;
+            
+            if (count == 0){
+                count =1;
+                curr = nums[i];
+            }
+        }
+        return curr;
+    }
+```
