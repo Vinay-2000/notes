@@ -30,35 +30,35 @@
 
 # Collections
 
-- [ ] Remove duplicates from List
-- [ ] Convert List to Map
-- [ ] Sort Employee by Salary
-- [ ] Sort by Multiple Fields
-- [ ] Group Employees by Department
-- [ ] Find Highest Salary
-- [ ] Find Second Highest Salary
-- [ ] Frequency of Elements
-- [ ] Merge Two Maps
-- [ ] Difference between HashMap and ConcurrentHashMap (code)
+- [x] Remove duplicates from List
+- [x] Convert List to Map
+- [x] Sort Employee by Salary
+- [x] Sort by Multiple Fields
+- [x] Group Employees by Department
+- [x] Find Highest Salary
+- [x] Find Second Highest Salary
+- [x] Frequency of Elements
+- [x] Merge Two Maps
+- [x] Difference between HashMap and ConcurrentHashMap (code)
 
 ---
 
 # Java Streams (Very Frequently Asked)
 
-- [ ] Filter Employees by Salary
-- [ ] Map Employee Names
-- [ ] Group By Department
-- [ ] Count Employees in Each Department
-- [ ] Highest Salary per Department
-- [ ] Second Highest Salary
-- [ ] Partition Even/Odd
-- [ ] Find Duplicates
-- [ ] Find First Non-Repeating Character
-- [ ] Convert List to Map
-- [ ] FlatMap Example
-- [ ] Collectors.toMap() with duplicate keys
-- [ ] Joining Strings
-- [ ] Sorting using Streams
+- [x] Filter Employees by Salary
+- [x] Map Employee Names
+- [x] Group By Department
+- [x] Count Employees in Each Department
+- [x] Highest Salary per Department
+- [x] Second Highest Salary
+- [x] Partition Even/Odd
+- [x] Find Duplicates
+- [x] Find First Non-Repeating Character
+- [x] Convert List to Map
+- [x] FlatMap Example
+- [x] Collectors.toMap() with duplicate keys
+- [x] Joining Strings
+- [x] Sorting using Streams
 
 ---
 

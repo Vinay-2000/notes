@@ -138,3 +138,50 @@ There is no `"A"`:
 ```
 A → 5
 ```
+
+---
+### `compute()`
+
+```
+Map<String, Integer> map = new HashMap<>();
+
+map.put("A", 10);
+
+map.compute("A", (key, oldValue) -> oldValue + 5);
+
+System.out.println(map); // {A=15}
+```
+
+Here you don't supply `5` separately. You **calculate the new value**:
+
+```
+oldValue = 10
+       ↓
+10 + 5 = 15
+       ↓
+new value = 15
+```
+
+For an absent key:
+
+```
+map.compute("B", (key, oldValue) ->
+        oldValue == null ? 5 : oldValue + 5
+);
+```
+
+Result:
+
+```
+{A=15, B=5}
+```
+
+### Interview shortcut
+
+Remember it as:
+
+```
+merge   → old value + supplied new value → decide result
+compute → key + old value              → calculate result
+```
+

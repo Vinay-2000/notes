@@ -5,7 +5,23 @@ Along with backend development, I've also worked with Oracle SQL, AWS cloud serv
 
 Currently, I'm working on a retirement services platform for one of the largest U.S. retirement providers. My team works in the **Vesting** domain, which is responsible for managing how retirement funds are distributed based on employer-defined vesting rules. Earlier, many of these requests were handled manually through Service Requests, which was time-consuming and prone to errors. To solve this, we built a self-service Vesting Sweep application that automates the entire process. In this project, I work across both the backend and frontend. I develop Spring Boot REST APIs, build React user interfaces, and develop Spring Batch jobs that process daily vesting transactions. These batch jobs run on AWS Batch and are scheduled using AutoSys. I also work with Oracle SQL for data storage, Redis for improving API performance, write unit and integration tests, and support deployments and production issues. Overall, my role involves developing new features, maintaining existing applications, fixing production issues, and working closely with business analysts, testers, and other developers to deliver new functionality.
 
+### How I Achieved the Performance Improvement
 
+The API was originally part of a legacy flow where the UI would make a SOAP call, which eventually went through Java, C++, and ProC before reaching the database. The ProC implementation had a lot of business logic tightly coupled with database operations, especially temporary-table processing.
+
+As part of the modernization effort, we migrated the Pro*C logic to Java and moved toward a microservices-based Spring Boot architecture. However, initially, we mostly migrated the existing logic as-is. The temporary-table processing and overall database interaction pattern remained largely unchanged.
+
+Although the technology stack was modernized, the API performance didn't improve significantly. One of our critical APIs was still taking around 30 seconds, while the SLA required 95% of requests to complete within 6 seconds.
+
+I then used Datadog to break down the API latency and identify where most of the time was being spent. After identifying the major bottlenecks, I did a deeper analysis of the business logic and looked for database operations that weren't actually necessary.
+
+One of the major optimizations was removing **unnecessary** temporary-table processing from the database. Instead of repeatedly writing intermediate results to temporary tables and querying them again, I moved suitable processing into the application layer and used Java's in-memory collections for those operations. This significantly reduced database I/O and the number of database operations involved in the flow.
+
+I also looked at the downstream service calls and identified calls that were independent of each other. Instead of executing them sequentially, I used asynchronous processing with CompletableFuture to execute those calls in parallel where it was safe to do so.
+
+We then repeatedly measured the API through Datadog after each optimization and continued addressing the remaining bottlenecks. Through these changes, we brought the P95 latency down from around 30 seconds to around 6 seconds, allowing the API to meet its SLA.
+
+---
 
 > One of the biggest technical challenges was handling large file uploads for our Vesting application. Initially, the frontend uploaded the file through a REST API, and the API was responsible for reading every row and inserting the data into the database. This approach worked for smaller files, but as the file size increased, we started facing timeout and performance issues because the API was doing both the upload and the processing.
 > 
@@ -73,3 +89,4 @@ Then tell the S3 trigger story.
                       │
              React / Client App
 ```
+
