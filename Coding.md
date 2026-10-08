@@ -64,7 +64,7 @@
 
 # OOP Coding
 
-- [ ] Design Parking Lot
+- [x] Design Parking Lot
 - [ ] Design Library System
 - [ ] Employee Management System
 - [ ] Payment Strategy Pattern
@@ -75,9 +75,9 @@
 
 # Multithreading
 
-- [ ] Print Even/Odd using Two Threads
-- [ ] Producer Consumer
-- [ ] Thread-safe Singleton
+- [x] Print Even/Odd using Two Threads
+- [x] Producer Consumer
+- [x] Thread-safe Singleton
 - [ ] Deadlock Example
 - [ ] ExecutorService Example
 - [ ] Callable & Future
