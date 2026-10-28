@@ -1,7 +1,7 @@
 ## Tier 1 — Highest Priority
 
 - [x] URL Shortener 
-- [ ]  Rate Limiter
+- [x]  Rate Limiter
 - [ ]  Distributed Cache
 - [ ]  Notification System
 - [ ]  Chat / Messaging System

@@ -58,6 +58,8 @@ JDK
 
     - Loads application classes from the classpath.
 
+![[Classloaders.png|933]]
+
 Delegation Model:
 Application
 ↓
